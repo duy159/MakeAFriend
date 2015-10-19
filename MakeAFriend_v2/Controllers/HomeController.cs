@@ -12,7 +12,7 @@ namespace MakeAFriend_v2.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Chat", "Home");
+                return RedirectToAction("Category", "Home");
             }
             return View();
         }
@@ -34,6 +34,12 @@ namespace MakeAFriend_v2.Controllers
         public ActionResult Chat()
         {
             ViewBag.Message = "Your chat page";
+            return View();
+        }
+
+        public ActionResult Category()
+        {
+            ViewBag.Message = "Your category page";
             return View();
         }
     }

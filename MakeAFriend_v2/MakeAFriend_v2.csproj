@@ -201,6 +201,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <None Include="Resources\background.jpg" />
+    <Content Include="Resources\exit.png" />
+    <Content Include="Resources\exit_hover.png" />
     <Content Include="Resources\Icons\1.gif" />
     <Content Include="Resources\Icons\10.gif" />
     <Content Include="Resources\Icons\11.gif" />
@@ -280,6 +282,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Home\Category.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

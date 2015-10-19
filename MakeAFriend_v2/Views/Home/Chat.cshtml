@@ -142,6 +142,10 @@
     </div>
 
     <div id="textboxcontainer">
+        <div id="exitcontainer" title="Exit">
+            <img id="exit" src="~/Resources/exit.png" height="70"/>
+            <img id="exit-hover" src="~/Resources/exit_hover.png" height="70"/>
+        </div>
         <div contenteditable="true" id="message" data-text="Type a message here" onkeypress="return (this.innerText.length <= 150)"></div>
         <input type="button" id="sendmessage" value="Send" />
         <div id="emoticonbutton" onclick="showemoticonpanel()">
