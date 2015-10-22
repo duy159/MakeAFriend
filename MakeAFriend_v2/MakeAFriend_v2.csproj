@@ -230,6 +230,7 @@
     <Content Include="Resources\Icons\9.gif" />
     <Content Include="Resources\Icons\emote.png" />
     <Content Include="Resources\spinner.gif" />
+    <Content Include="Resources\test.jpg" />
     <Content Include="Resources\Woosh.mp3" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
