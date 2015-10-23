@@ -3,58 +3,68 @@
     ViewBag.Title = "Category";
 }
 
+@section css {
+<link href="~/Content/waves.min.css" rel="stylesheet" type="text/css" />
+}
+
 <div id="headercontainer">
     <h1 id="headerTitle">Choose a Topic</h1>
 </div>
 
 
+@section js {
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="~/Scripts/waves.min.js"></script>
+
+<script>
+    Waves.attach('.category-hover');
+    Waves.init();
+
+    $('.category-hover').click(function () {
+        setTimeout(function () {
+            window.location.href = "@Url.Action("Chat","Home")";
+        }, 400);
+    });
+
+
+</script>
+}
+
 <div id="pagecontent">
     <div id="topiccontainer">
         <div class="row1">
-            <div class="column1">
-                <a href="@Url.Action("Chat","Home")">
-                    <img class="topic-img" src="~/Resources/test.jpg" />
-                    <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                    <div class="topic-text">Category</div>
-                </a>
+            <div class="column1 category-hover">
+                <img class="topic-img" src="~/Resources/test.jpg" />
+                <img class="topic-img-hover" src="~/Resources/background.jpg" />
+                <div class="topic-text">Category</div>
             </div>
-            <div class="column2">
-                <a href="@Url.Action("Chat","Home")">
-                    <img class="topic-img" src="~/Resources/test.jpg" />
-                    <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                    <div class="topic-text">Category</div>
-                </a>
+            <div class="column2 category-hover">
+                <img class="topic-img" src="~/Resources/test.jpg" />
+                <img class="topic-img-hover" src="~/Resources/background.jpg" />
+                <div class="topic-text">Category</div>
             </div>
-            <div class="column3">
-                <a href="@Url.Action("Chat","Home")">
-                    <img class="topic-img" src="~/Resources/test.jpg" />
-                    <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                    <div class="topic-text">Category</div>
-                </a>
+            <div class="column3 category-hover">
+                <img class="topic-img" src="~/Resources/test.jpg" />
+                <img class="topic-img-hover" src="~/Resources/background.jpg" />
+                <div class="topic-text">Category</div>
             </div>
         </div>
         <div class="row2">
-            <div class="column1">
-                <a href="@Url.Action("Chat","Home")">
-                    <img class="topic-img" src="~/Resources/test.jpg" />
-                    <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                    <div class="topic-text">Category</div>
-                </a>
+            <div class="column1 category-hover">
+                <img class="topic-img" src="~/Resources/test.jpg" />
+                <img class="topic-img-hover" src="~/Resources/background.jpg" />
+                <div class="topic-text">Category</div>
             </div>
-            <div class="column2">
-                <a href="@Url.Action("Chat","Home")">
-                    <img class="topic-img" src="~/Resources/test.jpg" />
-                    <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                    <div class="topic-text">Category</div>
-                </a>
+            <div class="column2 category-hover">
+                <img class="topic-img" src="~/Resources/test.jpg" />
+                <img class="topic-img-hover" src="~/Resources/background.jpg" />
+                <div class="topic-text">Category</div>
             </div>
-            <div class="column3">
-                <a href="@Url.Action("Chat","Home")">
-                    <img class="topic-img" src="~/Resources/test.jpg" />
-                    <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                    <div class="topic-text">Category</div>
-                </a>
+            <div class="column3 category-hover">
+                <img class="topic-img" src="~/Resources/test.jpg" />
+                <img class="topic-img-hover" src="~/Resources/background.jpg" />
+                <div class="topic-text">Category</div>
             </div>
-</div>
+        </div>
     </div>
 </div>
