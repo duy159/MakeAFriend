@@ -1,4 +1,4 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Chat";
 }
@@ -28,7 +28,7 @@
         function emoticonhover(i) {
             document.getElementById("emoticonpreview").src = "../Resources/Icons/" + i + ".gif";
         }
-        
+
         // Pressing enter will send the message in the textbox
 
 
@@ -52,6 +52,19 @@
             var chat = $.connection.chatHub;
             var theirmessage = true;
 
+            chat.client.connectionMessage = function (message, stopChat) {
+                var encodedName = $('<div />').text("@(User.Identity.GetUserName())").html();
+                var encodedMsg = $('<div />').html(message).html();
+
+                $('#discussion').append($('<div class="connectionmessage">'
+                    + encodedName + encodedMsg
+                    + '</div>'));
+
+                if (stopChat) {
+                    //document.getElementById('message').setAttribute("contenteditable", false);
+                }
+            }
+
             chat.client.broadcastMessage = function (name, message) {
                 if (message != '' && message.search(/^&nbsp;*/) != 0) {
                     var encodedName = $('<div />').text(name).html();
@@ -61,21 +74,23 @@
                     // Add the message to the page
                     if (theirmessage) {
                         $('#discussion').append($('<div class="theirbubblecontainer"">'
-                            + '<strong class="bubblename">'
+                            + '<strong class="theirbubblename">'
                                 + encodedName
                             + '</strong>&nbsp;&nbsp;&nbsp;&nbsp;'
                             + '<div class="theirbubble">'
+                                + '<div class="theirbubble-triangle"></div>'
                                 + encodedMsg
                             + '</div>'
                         + '</div>').css({fontSize: '0px', opacity: 0.4}).animate({fontSize: '12pt', opacity:1}, 250, 'swing'));
                     } else {
                         $('#discussion').append($('<div class="yourbubblecontainer">'
-                            + '<div class="yourbubble">'
-                                + encodedMsg
-                            + '</div>&nbsp;&nbsp;&nbsp;&nbsp;'
-                            + '<strong class="bubblename">'
+                            + '<strong class="yourbubblename">'
                                 + encodedName
                             + '</strong>'
+                            + '<div class="yourbubble">'
+                                + '<div class="yourbubble-triangle"></div>'
+                                + encodedMsg
+                            + '</div>&nbsp;&nbsp;&nbsp;&nbsp;'
                         + '</div>').css({fontSize: '0px', opacity: 0.4}).animate({fontSize: '12pt', opacity:1}, 250, 'swing'));
                     }
 
@@ -98,16 +113,11 @@
                 }
             };
 
-
-            // Get the user name and store it to prepend to messages.
-            $('#displayname').val(prompt('Enter your name:', ''));
-
-
             $('#message').html('').focus();
 
             $.connection.hub.start().done(function () {
                 $('#sendmessage').click(function () {
-                    chat.server.send($('#displayname').val(), $('#message').html());
+                    chat.server.send("@(User.Identity.GetUserName())", $('#message').html());
                     theirmessage = false;
 
                     $('#message').html('').focus();
@@ -127,10 +137,10 @@
     <h1 id="headerTitle">Make a Friend!</h1>
 </div>
 
-<div id="loader-wrapper">
-    <div id="loader">
+<div class="loader-wrapper">
+    <div class="loader">
         <p>Finding a friend...</p>
-        <img id="spinner" src="~/Resources/spinner.gif" />
+        <img class="spinner" src="~/Resources/spinner.gif" />
     </div>
     <div class="loader-section section-left"></div>
     <div class="loader-section section-right"></div>
@@ -142,10 +152,10 @@
     </div>
 
     <div id="textboxcontainer">
-        <div id="exitcontainer" title="Exit">
+        <a id="exitcontainer" title="Exit" href="@Url.Action("Category", "Home")">
             <img id="exit" src="~/Resources/exit.png" height="70"/>
             <img id="exit-hover" src="~/Resources/exit_hover.png" height="70"/>
-        </div>
+        </a>
         <div contenteditable="true" id="message" data-text="Type a message here" onkeypress="return (this.innerText.length <= 150)"></div>
         <input type="button" id="sendmessage" value="Send" />
         <div id="emoticonbutton" onclick="showemoticonpanel()">
@@ -186,7 +196,6 @@
             <div id="emoticontriangleouter"></div>
             <div id="emoticontriangleinner"></div>
         </div>
-        <input type="hidden" id="displayname" />
     </div>
 </div>
 

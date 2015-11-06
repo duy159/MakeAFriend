@@ -5,46 +5,42 @@
 }
 
 <div id="bg">
-    <div id="logincontainer">
-        <h1 id="loginheader">
-            Login
-        </h1>
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    <div id="homecontainer">
+        <div id="maintitlecontainer">
+            <h1 id="maintitle">
+                Make A Friend
+            </h1>
+            <a id="signincontainer" href="@Url.Action("Register", "Account")">Join now</a>
+        </div>
+
+        <div id="logincontainer">
+            <section id="logincontent">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                     <div>
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        <div>
+                            <input type="submit" value="LOGIN" class="btn btn-default" />
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div>
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <!--
-            <div>
-                <div>
-                    <div class="checkbox">
-                        @Html.CheckBoxFor(m => m.RememberMe)
-                        @Html.LabelFor(m => m.RememberMe)
-                    </div>
-                </div>
-            </div>
-            -->
-                <div>
-                    <div>
-                        <input type="submit" value="LOGIN" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register", "Account")
-                </p>
-            }
-        </section>
+                    <p>
+                        @Html.ActionLink("Register as a new user", "Register", "Account")
+                    </p>
+                }
+            </section>
+        </div>
     </div>
 </div>
