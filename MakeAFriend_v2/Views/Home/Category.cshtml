@@ -1,4 +1,4 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Category";
 }
@@ -9,6 +9,17 @@
 
 <div id="headercontainer">
     <h1 id="headerTitle">Choose a Topic</h1>
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+        @Html.AntiForgeryToken()
+        <div id="loginpartial">
+            Hi @(User.Identity.GetUserName())!
+            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+        </div>
+        }
+    }
 </div>
 
 
@@ -20,50 +31,58 @@
     Waves.attach('.category-hover');
     Waves.init();
 
-    $('.category-hover').click(function () {
+    function categoryclick(topic) {
         setTimeout(function () {
-            window.location.href = "@Url.Action("Chat","Home")";
+            //window.alert("You have chosen... " + topic + "!");
+            //window.location.href = "@Url.Action("Chat", "Home")";
         }, 400);
-    });
+    }
 
+    $(function () {
+        setTimeout(function () {
+            $('#topiccontainer-wrapper').animate({ 'opacity': 1 }, 2000);
+        }, 200);
+    });
 
 </script>
 }
 
 <div id="pagecontent">
-    <div id="topiccontainer">
-        <div class="row1">
-            <div class="column1 category-hover">
-                <img class="topic-img" src="~/Resources/test.jpg" />
-                <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                <div class="topic-text">Category</div>
+    <div id="topiccontainer-wrapper">
+        <div id="topiccontainer">
+            <div class="row1">
+                <div class="column1 category-hover" onclick="categoryclick('Movies')">
+                    <img class="topic-img" src="~/Resources/Topics/movies-hover.jpg"/>
+                    <img class="topic-img-hover" src="~/Resources/Topics/movies.jpg" />
+                    <div class="topic-text">Movies</div>
+                </div>
+                <div class="column2 category-hover" onclick="categoryclick('Travel')">
+                    <img class="topic-img" src="~/Resources/Topics/travel-hover.jpg" />
+                    <img class="topic-img-hover" src="~/Resources/Topics/travel.jpg" />
+                    <div class="topic-text">Travel</div>
+                </div>
+                <div class="column3 category-hover" onclick="categoryclick('Games')">
+                    <img class="topic-img" src="~/Resources/Topics/games-hover.jpg" />
+                    <img class="topic-img-hover" src="~/Resources/Topics/games.jpg" />
+                    <div class="topic-text">Games</div>
+                </div>
             </div>
-            <div class="column2 category-hover">
-                <img class="topic-img" src="~/Resources/test.jpg" />
-                <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                <div class="topic-text">Category</div>
-            </div>
-            <div class="column3 category-hover">
-                <img class="topic-img" src="~/Resources/test.jpg" />
-                <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                <div class="topic-text">Category</div>
-            </div>
-        </div>
-        <div class="row2">
-            <div class="column1 category-hover">
-                <img class="topic-img" src="~/Resources/test.jpg" />
-                <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                <div class="topic-text">Category</div>
-            </div>
-            <div class="column2 category-hover">
-                <img class="topic-img" src="~/Resources/test.jpg" />
-                <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                <div class="topic-text">Category</div>
-            </div>
-            <div class="column3 category-hover">
-                <img class="topic-img" src="~/Resources/test.jpg" />
-                <img class="topic-img-hover" src="~/Resources/background.jpg" />
-                <div class="topic-text">Category</div>
+            <div class="row2">
+                <div class="column1 category-hover" onclick="categoryclick('Music')">
+                    <img class="topic-img" src="~/Resources/Topics/music-hover.jpg"/>
+                    <img class="topic-img-hover" src="~/Resources/Topics/music.jpg" />
+                    <div class="topic-text">Music</div>
+                </div>
+                <div class="column2 category-hover" onclick="categoryclick('Animals')">
+                    <img class="topic-img" src="~/Resources/Topics/animals-hover.jpg" />
+                    <img class="topic-img-hover" src="~/Resources/Topics/animals.jpg" />
+                    <div class="topic-text">Animals</div>
+                </div>
+                <div class="column3 category-hover" onclick="categoryclick('Category')">
+                    <img class="topic-img" src="~/Resources/Topics/sports-hover.jpg" />
+                    <img class="topic-img-hover" src="~/Resources/Topics/sports.jpg" />
+                    <div class="topic-text">Category</div>
+                </div>
             </div>
         </div>
     </div>
