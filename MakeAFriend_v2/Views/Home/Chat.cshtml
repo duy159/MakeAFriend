@@ -1,0 +1,232 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Chat";
+}
+
+<!--Script references. -->
+
+@section js {
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+<script src="~/signalr/hubs"></script>
+
+<script>
+        var qsParm = new Array();
+        function qs() {
+            var query = window.location.search.substring(1);
+            var parms = query.split('&');
+            for (var i = 0; i < parms.length; i++) {
+                var pos = parms[i].indexOf('=');
+                if (pos > 0) {
+                    var key = parms[i].substring(0, pos);
+                    var val = parms[i].substring(pos + 1);
+                    qsParm[key] = val;
+                }
+            }
+        }
+
+
+        // Emoticon functions
+        function showemoticonpanel() {
+            var e = document.getElementById('emoticoncontainer');
+            if(e.style.display == 'block')
+                e.style.display = 'none';
+            else
+                e.style.display = 'block';
+        }
+        function emoticonclick(i) {
+            $('#message').html($('#message').html() + "<img src='../Resources/Icons/" + i + ".gif'/>");
+            document.getElementById('emoticoncontainer').style.display = 'none';
+            $('#message').html($('#message').html()).focus();
+        }
+        function emoticonhover(i) {
+            document.getElementById("emoticonpreview").src = "../Resources/Icons/" + i + ".gif";
+        }
+
+
+
+        $(document).mouseup(function (e) {
+            var container = $("#emoticoncontainer");
+
+            if (!container.is(e.target) // if the target of the click isn't the container...
+                && container.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                document.getElementById('emoticoncontainer').style.display = 'none';
+            }
+        });
+        
+
+
+        // Pressing enter will send the message in the textbox
+        $('#message').keydown(function (e) {
+            if (e.which == 13) {
+                $('#sendmessage').click();
+            }
+        });
+
+
+        $(function () {
+            setTimeout(function () {
+                $('body').addClass('loaded');
+            }, 2000);
+
+            $('#message').bind("cut copy paste", function (e) {
+                e.preventDefault();
+            });
+
+
+            var chat = $.connection.chatHub;
+            var theirmessage = true;
+
+
+            chat.client.gettopic = function () {
+                qsParm['topic'] = null;
+                qs();
+                var returnvalue = qsParm['topic'];
+                chat.server.returnValue(returnvalue);
+            };
+
+
+            chat.client.connectionMessage = function (message) {
+                var encodedName = $('<div />').text("@(User.Identity.GetUserName())").html();
+                var encodedMsg = $('<div />').html(message).html();
+
+                $('#discussion').append($('<div class="connectionmessage">'
+                    + encodedName + encodedMsg
+                    + '</div>'));
+            };
+
+            chat.client.broadcastMessage = function (name, message) {
+                if (message != '' && message.search(/^&nbsp;*/) != 0) {
+                    var encodedName = $('<div />').text(name).html();
+                    //var encodedMsg = $('<div />').text(message).html();
+                    var encodedMsg = $('<div />').html(message).html();
+
+                    // Add the message to the page
+                    if (theirmessage) {
+                        $('#discussion').append($('<div class="theirbubblecontainer"">'
+                            + '<strong class="theirbubblename">'
+                                + encodedName
+                            + '</strong>&nbsp;&nbsp;&nbsp;&nbsp;'
+                            + '<div class="theirbubble">'
+                                + '<div class="theirbubble-triangle"></div>'
+                                + encodedMsg
+                            + '</div>'
+                        + '</div>').css({fontSize: '0px', opacity: 0.4}).animate({fontSize: '12pt', opacity:1}, 250, 'swing'));
+                    } else {
+                        $('#discussion').append($('<div class="yourbubblecontainer">'
+                            + '<strong class="yourbubblename">'
+                                + encodedName
+                            + '</strong>'
+                            + '<div class="yourbubble">'
+                                + '<div class="yourbubble-triangle"></div>'
+                                + encodedMsg
+                            + '</div>&nbsp;&nbsp;&nbsp;&nbsp;'
+                        + '</div>').css({fontSize: '0px', opacity: 0.4}).animate({fontSize: '12pt', opacity:1}, 250, 'swing'));
+                    }
+
+                    theirmessage = true;
+
+                    var audio = document.getElementById("audio");
+                    audio.play();
+
+                    // Scrolls chat history down automatically until user scrolls up.
+                    var scrolled = false;
+                    if (!scrolled) {
+                        var element = document.getElementById("chatcontainer");
+                        //element.scrollTop = element.scrollHeight;
+                        $("#chatcontainer").animate({ scrollTop: $("#chatcontainer").get(0).scrollHeight }, 500);
+                    }
+
+                    $("#chatcontainer").on('scroll', function () {
+                        scrolled = true;
+                    });
+                }
+            };
+
+            $('#message').html('').focus();
+
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    chat.server.send("@(User.Identity.GetUserName())", $('#message').html());
+                    theirmessage = false;
+
+                    $('#message').html('').focus();
+                });
+            });
+
+            chat.client.not
+        });
+</script>
+}
+
+
+<audio id="audio" src="~/Resources/Woosh.mp3"></audio>
+
+
+<div id="headercontainer">
+    <h1 id="headerTitle">Make a Friend!</h1>
+</div>
+
+<div class="loader-wrapper">
+    <div class="loader">
+        <p>Finding a friend...</p>
+        <img class="spinner" src="~/Resources/spinner.gif" />
+    </div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+</div>
+
+<div id="pagecontent">
+    <div id="chatcontainer">
+        <ul id="discussion"></ul>
+    </div>
+
+    <div id="textboxcontainer">
+        <a id="exitcontainer" title="Exit" href="@Url.Action("Category", "Home")">
+            <img id="exit" src="~/Resources/exit.png" height="70"/>
+            <img id="exit-hover" src="~/Resources/exit_hover.png" height="70"/>
+        </a>
+        <div contenteditable="true" id="message" data-text="Type a message here" onkeypress="return (this.innerText.length <= 150)"></div>
+        <input type="button" id="sendmessage" value="Send" />
+        <div id="emoticonbutton" onclick="showemoticonpanel()">
+            <img src="~/Resources/Icons/emote.png" />
+        </div>
+        <div id="emoticoncontainer">
+            <div id="emoticonpreviewcontainer">
+                <img src="~/Resources/Icons/1.gif" id="emoticonpreview" />
+            </div>
+            <hr />
+            <div id="emoticonpanel">
+                <img class="emoticons" src="~/Resources/Icons/1.gif" onclick="emoticonclick(1)" onmouseover="emoticonhover(1)" />
+                <img class="emoticons" src="~/Resources/Icons/2.gif" onclick="emoticonclick(2)" onmouseover="emoticonhover(2)" />
+                <img class="emoticons" src="~/Resources/Icons/3.gif" onclick="emoticonclick(3)" onmouseover="emoticonhover(3)" />
+                <img class="emoticons" src="~/Resources/Icons/4.gif" onclick="emoticonclick(4)" onmouseover="emoticonhover(4)" />
+                <img class="emoticons" src="~/Resources/Icons/5.gif" onclick="emoticonclick(5)" onmouseover="emoticonhover(5)" />
+                <img class="emoticons" src="~/Resources/Icons/6.gif" onclick="emoticonclick(6)" onmouseover="emoticonhover(6)" />
+                <img class="emoticons" src="~/Resources/Icons/7.gif" onclick="emoticonclick(7)" onmouseover="emoticonhover(7)" />
+                <img class="emoticons" src="~/Resources/Icons/8.gif" onclick="emoticonclick(8)" onmouseover="emoticonhover(8)" />
+                <img class="emoticons" src="~/Resources/Icons/9.gif" onclick="emoticonclick(9)" onmouseover="emoticonhover(9)" />
+                <img class="emoticons" src="~/Resources/Icons/10.gif" onclick="emoticonclick(10)" onmouseover="emoticonhover(10)" />
+                <img class="emoticons" src="~/Resources/Icons/11.gif" onclick="emoticonclick(11)" onmouseover="emoticonhover(11)" />
+                <img class="emoticons" src="~/Resources/Icons/12.gif" onclick="emoticonclick(12)" onmouseover="emoticonhover(12)" />
+                <img class="emoticons" src="~/Resources/Icons/13.gif" onclick="emoticonclick(13)" onmouseover="emoticonhover(13)" />
+                <img class="emoticons" src="~/Resources/Icons/14.gif" onclick="emoticonclick(14)" onmouseover="emoticonhover(14)" />
+                <img class="emoticons" src="~/Resources/Icons/15.gif" onclick="emoticonclick(15)" onmouseover="emoticonhover(15)" />
+                <img class="emoticons" src="~/Resources/Icons/16.gif" onclick="emoticonclick(16)" onmouseover="emoticonhover(16)" />
+                <img class="emoticons" src="~/Resources/Icons/17.gif" onclick="emoticonclick(17)" onmouseover="emoticonhover(17)" />
+                <img class="emoticons" src="~/Resources/Icons/18.gif" onclick="emoticonclick(18)" onmouseover="emoticonhover(18)" />
+                <img class="emoticons" src="~/Resources/Icons/19.gif" onclick="emoticonclick(19)" onmouseover="emoticonhover(19)" />
+                <img class="emoticons" src="~/Resources/Icons/20.gif" onclick="emoticonclick(20)" onmouseover="emoticonhover(20)" />
+                <img class="emoticons" src="~/Resources/Icons/21.gif" onclick="emoticonclick(21)" onmouseover="emoticonhover(21)" />
+                <img class="emoticons" src="~/Resources/Icons/22.gif" onclick="emoticonclick(22)" onmouseover="emoticonhover(22)" />
+                <img class="emoticons" src="~/Resources/Icons/23.gif" onclick="emoticonclick(23)" onmouseover="emoticonhover(23)" />
+                <img class="emoticons" src="~/Resources/Icons/24.gif" onclick="emoticonclick(24)" onmouseover="emoticonhover(24)" />
+                <img class="emoticons" src="~/Resources/Icons/25.gif" onclick="emoticonclick(25)" onmouseover="emoticonhover(25)" />
+            </div>
+            <div id="emoticontriangleouter"></div>
+            <div id="emoticontriangleinner"></div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,558 @@
+﻿/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}*/
+
+/* Set padding to keep content from hitting the edges */
+/*.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}*/
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 240px;
+}
+
+
+
+
+/******************************** STANDARD ********************************/
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI Light", "Segoe UI" !important;
+    font-weight: 100 !important;
+}
+html {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    min-height: 100%;
+}
+body {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.body-content {
+    width: 100%;
+    height: 100%;
+}
+
+/* HEADER */
+#headercontainer {
+    width: 100%;
+    height: 80px;
+    background-color: #ffa81e;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+#headerTitle {
+    font-size: 50px;
+    width: 330px;
+    color: white;
+    position: absolute;
+    margin-top: 10px;
+    right: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* CONTENT */
+#pagecontent {
+    width: 100%;
+    height: calc(100% - 80px);
+    position: absolute;
+    top: 80px;
+    overflow: auto;
+}
+
+
+/******************************** LOADING ********************************/
+/* CHAT LOAD */
+.loader-wrapper  {
+    width: 100%;
+    height: 100%;
+}
+.loader {
+    text-align: center;
+    top: 30%;
+    position: relative;
+    font-size: 40pt;
+    z-index: 4;
+    transition: 1.5s;
+    display: block;
+}
+.spinner {
+    position: relative;
+    top: 40px;
+}
+.loader-section {
+    position: fixed;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: #c2c2c2;
+    z-index: 3;
+}
+.loader-section.section-left {
+    left: 0;
+}
+.loader-section.section-right {
+    right: 0;
+}
+.loaded .loader-wrapper .loader-section.section-left {
+    transform: translateX(-100%); 
+    transition: all 1s 1.3s;
+}
+.loaded .loader-wrapper .loader-section.section-right {
+    transform: translateX(100%); 
+    transition: all 1s 1.3s;
+}
+.loaded .loader {
+    opacity: 0;
+    visibility: hidden; 
+}
+
+/******************************** HOMEPAGE ********************************/
+#bg {
+    height: 100%;
+    width: 100%;
+    /*background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url(../Resources/background.jpg);*/
+    background: url(../Resources/background.jpg);
+    background-size: cover;
+}
+#homecontainer {
+    width: 100%;
+    height: 100%;
+}
+#maintitlecontainer {
+    width: 700px;
+    height: 100px;
+    position: absolute;
+    left: 0;
+    right: 0px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    text-align: center;
+}
+#maintitle {
+    margin-top: 0 !important;
+    color: white;
+    font-size: 85pt;
+    text-shadow: 0px 0px 0.5px black;
+}
+#joinbutton {
+    opacity: 0;
+    font-size: 25pt;
+    background: #cb0202;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 4px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+#joinbutton:hover {
+    text-decoration: none;
+    background-color: red;
+}
+#logincontainer {
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background-color: black;
+}
+#loginheader {
+    font-size: 30pt;
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+}
+#logincontent {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 300px;
+    height: 300px;
+    padding-left: 45px;
+    padding-right: 45px;
+    text-align: center;
+}
+#signupcontent {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 300px;
+    height: 300px;
+    padding-left: 45px;
+    padding-right: 45px;
+    text-align: center;
+}
+.signuploginlink {
+    cursor: pointer;
+}
+
+
+/******************************** CATEGORY ********************************/
+#loginpartial {
+    position: absolute;
+    right: 20px;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 40px;
+    font-size: 20pt;
+}
+#topiccontainer-wrapper {
+    opacity: 0;
+    position: relative;
+    width: 100%;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+#topiccontainer-wrapper:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: 48%;
+}
+#topiccontainer-wrapper > #topiccontainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+#topiccontainer {
+    box-shadow: 0px 20px 20px -10px rgba(0, 0, 0, 0.4);
+}
+.column1 {
+    width: 33.33%;
+    height: 100%;
+    position: relative;
+    display: inline-block;
+}
+.column2 {
+    width: 33.33%;
+    margin-left: -4px;
+    height: 100%;
+    position: relative;
+    display: inline-block;
+}
+.column3 {
+    width: 33.33%;
+    margin-left: -4px;
+    height: 100%;
+    position: relative;
+    display: inline-block;
+}
+.row1 {
+    height: 50%;
+}
+.row2 {
+    height: 50%;
+    z-index: -1;
+}
+.topic-img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: 0.5s ease-in;
+}
+.category-hover:hover .topic-img {
+    opacity: 0;
+}
+.topic-img-hover {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.topic-text {
+    position: absolute;
+    top: -45%;
+    width: 100%;
+    text-align: center;
+    transition: 0.3s ease-in;
+    font-size: 6vw;
+    font-weight: 500 !important;
+    color: white;
+    text-shadow: 0px 0px 5px black;
+}
+.category-hover:hover .topic-text {
+    top: 30%;
+}
+.row1 .column1 {
+    z-index: 1;
+}
+.row1 .column2 {
+    z-index: 1;
+}
+.row1 .column3 {
+    z-index: 1;
+}
+.category-hover {
+    cursor: pointer;
+}
+
+
+/******************************** CHAT ********************************/
+/* CHAT */
+#chatcontainer {
+    word-wrap: break-word;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow-y: scroll;
+    position: absolute;
+    bottom: 130px;
+    left: 20%;
+    right: 20%;
+    top: 7px;
+    padding-bottom: 10px;
+}
+#discussion {
+    cursor: default;
+}
+.yourbubblecontainer {
+    text-align:right;
+}
+.yourbubble-triangle {
+    height: 0;
+    width: 0;
+    border-top: 0px solid transparent;
+	border-bottom: 15px solid transparent;
+	border-left: 8px solid #ffcb61;
+    position: absolute;
+    right: -8px;
+    top: 0;
+}
+.yourbubble {
+    background-color:#ffcb61;
+    padding:12px 18px 12px 18px;
+    border-radius:15px 0px 15px 15px;
+    display:inline-block;
+    max-width: 50%;
+    box-shadow: #cbcbcb 0.3px 1px 3px 0px;
+    position: relative;
+    margin-top: 15px;
+}
+.yourbubblename {
+    color: orange;
+    font-size:20px;
+    float: right;
+}
+.theirbubblecontainer {
+}
+.theirbubble {
+    background-color:#e8e8e8; 
+    padding:12px 18px 12px 18px; 
+    border-radius:0px 15px 15px 15px;
+    display:inline-block;
+    max-width: 50%;
+    box-shadow: #cbcbcb 0.3px 1px 3px 0px;
+    position: relative;
+    margin-top: 15px;
+}
+.theirbubble-triangle {
+    height: 0;
+    width: 0;
+    border-top: 0px solid transparent;
+	border-bottom: 15px solid transparent;
+	border-right: 8px solid #e8e8e8;
+    position: absolute;
+    left: -8px;
+    top: 0;
+}
+.theirbubblename {
+    color: orange;
+    font-size:20px;
+    float: left;
+}
+.connectionmessage {
+    font-size: 12pt;
+    text-align: center;
+}
+
+
+/* TEXTBOX */
+#textboxcontainer {
+    height: 100px;
+    bottom: 10px;
+    left: 20%;
+    right: 20%;
+    position: absolute;
+}
+#message {
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 85px;
+    outline: none;
+    height: 100px;
+    border: solid 1px lightgrey;
+    overflow-y: auto;
+}
+#message:focus {
+    background-color: #e3e3e3;
+}
+#message:empty:not(:focus):before {
+    content:attr(data-text);
+}
+#sendmessage {
+    float: right;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    outline:none;
+    margin-top: -35px;
+    margin-right: 20px;
+    color: #899dff;
+    font-size: 18px;
+    position: relative;
+    z-index: 1;
+    font-weight: bold !important;
+    transition-duration: 0.3s;
+}
+#sendmessage:hover {
+    color: #2e3f92;
+    font-weight: bold !important;
+    transition-duration: 0.3s;
+}
+
+
+/* EMOTICON */
+#emoticonbutton {
+    float: right;
+    cursor:pointer;
+    margin-top: -32px;
+    margin-right: 65px;
+    position: relative;
+    z-index: 1;
+}
+#emoticoncontainer {
+    position: absolute;
+    /*height: 260px;*/
+    /*width: 137px;*/
+    height: 300px;
+    width: 180px;
+    bottom: 70px;
+    right: 10px;
+    background-color: white;
+    border: solid 1px #899dff;
+    display: none;
+    padding: 20px;
+}
+#emoticonpanel {
+    height:135px;
+    margin-top: 10px;
+}
+#emoticonpreviewcontainer {
+    /*height: 125px;*/
+    height: 100px;
+    width: 137px;
+    text-align:center;
+}
+#emoticonpreview {
+    height: 75px;
+}
+.emoticons {
+    cursor: pointer;
+    border-radius: 5px;
+    border: solid 2px white;
+    padding: 0.5px;
+}
+.emoticons:hover {
+    border-color: #899dff;
+}
+#emoticontriangleouter {
+    position: absolute;
+    bottom: -30px;
+    right: 30px;
+    border-top: solid 30px #899dff;
+    border-left: solid 35px transparent;
+    border-right: solid 35px transparent;
+}
+#emoticontriangleinner {
+    position: absolute;
+    bottom: -29px;
+    right: 31px;
+    border-top: solid 29px white;
+    border-left: solid 34px transparent;
+    border-right: solid 34px transparent;
+}
+
+
+/* EXIT */
+#exitcontainer {
+    position: relative;
+    top: 0px;
+    left: -100px;
+    top: 10px;
+}
+#exitcontainer:hover {
+    cursor: pointer;
+}
+#exit {
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    transition: 0.3s;
+}
+#exit:hover {
+    opacity: 0;
+}
+#exit-hover {
+    position: absolute;
+    left: 0;
+}
+
+
+
+
+
+
+

@@ -1,0 +1,131 @@
+﻿@using MakeAFriend_v2.Models
+@model MakeAFriend_v2.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@section js {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    <script>
+        $(function () {
+            setTimeout(function () {
+                $('#maintitlecontainer').animate({ right: '300px' }, 1000, 'swing');
+
+                setTimeout(function () {
+                    $('#maintitle').animate({ fontSize: '60pt', 'opacity': 0.8 }, 800, 'swing');
+                    $('#joinbutton').animate({ 'opacity': 1 }, 1000, 'swing');
+                    $('#logincontainer').animate({ 'opacity': 0.9 }, 1000, 'swing');
+                }, 1000);
+            }, 1000);
+        });
+
+        var onsignupcontent = false;
+        function signupclick(request) {
+            var login = document.getElementById('logincontent');
+            var signup = document.getElementById('signupcontent');
+
+            if (request == 's') {
+                $('#logincontainer').animate({ right: '-300px' }, 450, 'swing');
+
+                setTimeout(function () {
+                    login.style.display = 'block';
+                    signup.style.display = 'none';
+                }, 450);
+            
+                $('#logincontainer').animate({ right: '0px' }, 450, 'swing');
+
+                onsignupcontent = false;
+            }
+            else if (request == 'r') {
+                if (onsignupcontent == false) {
+                    $('#logincontainer').animate({ right: '-300px' }, 450, 'swing');
+
+                    setTimeout(function () {
+                        login.style.display = 'none';
+                        signup.style.display = 'block';
+                    }, 450);
+
+                    $('#logincontainer').animate({ right: '0px' }, 450, 'swing');
+                }
+
+                onsignupcontent = true;
+            }
+        }
+
+    </script>
+}
+
+<div id="bg">
+    <div id="homecontainer">
+        <div id="maintitlecontainer">
+            <h1 id="maintitle">
+                Make A Friend
+            </h1>
+            <a id="joinbutton" onclick="signupclick('r')">Join now</a>
+        </div>
+
+        <div id="logincontainer">
+            <section id="logincontent">
+                
+                <div id="loginheader">
+                    Welcome!
+                </div>
+                
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Username" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <input type="submit" value="SIGN IN" class="btn btn-default" />
+                        </div>
+                    </div>
+                    <a class="signuploginlink" onclick="signupclick('r')">Register as a new user</a>
+                }
+            </section>
+            
+            
+            <section id="signupcontent">
+                <div id="loginheader">
+                    Sign up!
+                </div>
+
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                    </div>
+                    <div class="form-group">
+                         @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Username" })
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-default" value="REGISTER" />
+                    </div>
+                    <a class="signuploginlink" onclick="signupclick('s')">Already an existing user?</a>
+                }
+            </section>
+        </div>
+    </div>
+</div>

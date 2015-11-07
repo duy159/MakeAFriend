@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("css", required: false)
+
+</head>
+<body>
+    @*<div style="z-index: 100; position: absolute; top: 100px; background-color:grey;">
+        <ul class="nav navbar-nav">
+            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+            <li>@Html.ActionLink("About", "About", "Home")</li>
+            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+            <li>@Html.ActionLink("Chat", "Chat", "Home")</li>
+            <li>@Html.ActionLink("Category", "Category", "Home")</li>
+        </ul>
+        @Html.Partial("_LoginPartial")
+    </div>*@
+
+    <div class="body-content">
+        @RenderBody()
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+    @if (IsSectionDefined("js"))
+    {
+        @RenderSection("js");
+    }
+</body>
+</html>
