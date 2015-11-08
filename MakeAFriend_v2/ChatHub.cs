@@ -77,7 +77,6 @@ namespace MakeAFriend_v2
 
         public override Task OnConnected()
         {
-            roomsType = -1;
             Clients.Client(Context.ConnectionId).gettopic();
 
             System.Threading.Timer timer = null;
@@ -91,19 +90,21 @@ namespace MakeAFriend_v2
                 {
                     foreach (User u in existingRoom.Value.users)
                     {
-                        if (Context.ConnectionId.Equals(u.connectionId))
+                        if (Context.ConnectionId.Equals(u.connectionId) && existingRoom.Key.Equals(u.roomId))
                         {
-                            if (existingRoom.Key.Equals(u.roomId))
-                            {
-                                currentRoom = existingRoom.Value;
-                                break;
-                            }
+                            currentRoom = existingRoom.Value;
+                            break;
                         }
                     }
                 }
-                foreach (User u in currentRoom.users)
+
+                if (currentRoom.users.Count == 2)
                 {
-                    Clients.Client(u.connectionId).connectionMessage(" has joined the room.");
+                    foreach (User u in currentRoom.users)
+                    {
+                        Clients.Client(u.connectionId).foundMatch();
+                        Clients.Client(u.connectionId).connectionMessage(" has joined the room.");
+                    }
                 }
 
 

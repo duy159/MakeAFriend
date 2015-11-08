@@ -71,7 +71,7 @@ namespace MakeAFriend_v2.Controllers
             if (!ModelState.IsValid)
             {
                 //return View(model);
-                return RedirectToAction("Index", "Home", model);
+                return RedirectToAction("IndexLoginValidate", "Home");
             }
 
             // This doesn't count login failures towards account lockout
@@ -90,7 +90,7 @@ namespace MakeAFriend_v2.Controllers
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     //return View(model);
-                    return RedirectToAction("Index", "Home", model);
+                    return RedirectToAction("IndexLoginValidate", "Home");
             }
         }
 
@@ -172,7 +172,8 @@ namespace MakeAFriend_v2.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            //return View(model);
+            return RedirectToAction("IndexRegisterValidate", "Home");
         }
 
         //

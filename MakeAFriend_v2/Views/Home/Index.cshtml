@@ -8,7 +8,13 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
     <script>
+        var loadanimation = true;
+
         $(function () {
+            @if (!ViewBag.LoginFailed && !ViewBag.RegisterFailed)
+            {
+            <text>
+            $('#homecontainer').animate({ 'opacity': 1 }, 1000);
             setTimeout(function () {
                 $('#maintitlecontainer').animate({ right: '300px' }, 1000, 'swing');
 
@@ -18,6 +24,26 @@
                     $('#logincontainer').animate({ 'opacity': 0.9 }, 1000, 'swing');
                 }, 1000);
             }, 1000);
+            </text>
+            } else if (ViewBag.LoginFailed) {
+            <text>
+            $('#homecontainer').animate({ 'opacity': 1 }, 400);
+            $('#maintitlecontainer').css({ right: '300px' });
+            $('#maintitle').css({ fontSize: '60pt', 'opacity': 0.8 });
+            $('#joinbutton').css({ 'opacity': 1 });
+            $('#logincontainer').css({ 'opacity': 0.9 });
+            </text>
+            } else if (ViewBag.RegisterFailed) {
+            <text>
+            $('#homecontainer').animate({ 'opacity': 1 }, 400);
+            $('#maintitlecontainer').css({ right: '300px' });
+            $('#maintitle').css({ fontSize: '60pt', 'opacity': 0.8 });
+            $('#joinbutton').css({ 'opacity': 1 });
+            $('#logincontainer').css({ 'opacity': 0.9 });
+            $('#logincontent').css({ 'display': 'none' });
+            $('#signupcontent').css({ 'display': 'block' });
+            </text>
+            }
         });
 
         var onsignupcontent = false;
@@ -32,7 +58,7 @@
                     login.style.display = 'block';
                     signup.style.display = 'none';
                 }, 450);
-            
+
                 $('#logincontainer').animate({ right: '0px' }, 450, 'swing');
 
                 onsignupcontent = false;
@@ -67,25 +93,30 @@
 
         <div id="logincontainer">
             <section id="logincontent">
-                
+
                 <div id="loginheader">
                     Welcome!
                 </div>
-                
+
+                @if (ViewBag.LoginFailed)
+                {
+                    <div class="errorMsg"> Incorrect username and/or password </div>
+                }
+
                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
                     <div class="form-group">
                         <div>
                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Username" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            @*@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })*@
                         </div>
                     </div>
                     <div class="form-group">
                         <div>
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            @*@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })*@
                         </div>
                     </div>
                     <div class="form-group">
@@ -95,37 +126,45 @@
                     </div>
                     <a class="signuploginlink" onclick="signupclick('r')">Register as a new user</a>
                 }
-            </section>
-            
-            
-            <section id="signupcontent">
-                <div id="loginheader">
-                    Sign up!
-                </div>
+                </section>
 
-                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
 
-                    @Html.ValidationSummary("", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                <section id="signupcontent">
+                    <div id="loginheader">
+                        Sign up!
                     </div>
-                    <div class="form-group">
-                         @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Username" })
-                    </div>
-                    <div class="form-group">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
-                    </div>
-                    <div class="form-group">
-                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-default" value="REGISTER" />
-                    </div>
-                    <a class="signuploginlink" onclick="signupclick('s')">Already an existing user?</a>
-                }
-            </section>
-        </div>
+
+                    @if (ViewBag.RegisterFailed)
+                    {
+                        <div class="errorMsg"> 
+                            Invalid inputs <br/>
+                            *password requires 1 uppercase, 1 number, and 1 special character
+                        </div>
+                    }
+
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Username" })
+                        </div>
+                        <div class="form-group">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                        </div>
+                        <div class="form-group">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-default" value="REGISTER" />
+                        </div>
+                        <a class="signuploginlink" onclick="signupclick('s')">Already an existing user?</a>
+                    }
+                </section>
+            </div>
     </div>
 </div>
