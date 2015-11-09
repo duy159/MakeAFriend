@@ -29,10 +29,9 @@
         // Emoticon functions
         function showemoticonpanel() {
             var e = document.getElementById('emoticoncontainer');
-            if(e.style.display == 'block')
-                e.style.display = 'none';
-            else
+            if(e.style.display == 'none') {
                 e.style.display = 'block';
+            }
         }
         function emoticonclick(i) {
             $('#message').html($('#message').html() + "<img src='../Resources/Icons/" + i + ".gif'/>");
