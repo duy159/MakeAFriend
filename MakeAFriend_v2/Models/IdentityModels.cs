@@ -3,6 +3,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using MakeAFriend_v2.Models;
 
 namespace MakeAFriend_v2.Models
 {
@@ -16,6 +19,9 @@ namespace MakeAFriend_v2.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public string UserStatus { get; set; }  // Online status of user.
+        public int NumReports { get; set; }     // Number of reports user has.
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -29,5 +35,31 @@ namespace MakeAFriend_v2.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Friends> MyFriends { get; set; }
     }
+    
+}
+
+public class Friends
+{
+    [Key]
+    [Required]
+    [Display(Name = "Id")]
+    public string Id { get; set; }
+    [ForeignKey("Id")]
+    public virtual ApplicationUser User { get; set; }
+
+    [Required]
+    [Display(Name = "Friend Id")]
+    public string FriendId { get; set; }
+
+    [Required]
+    [Display(Name = "User Name")]
+    public string UserName { get; set; }
+
+    [Required]
+    [Display(Name = "User Status")]
+    public string UserStatus { get; set; }
+
 }

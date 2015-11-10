@@ -54,8 +54,92 @@
                 document.getElementById('emoticoncontainer').style.display = 'none';
             }
         });
+
+
+        // Friends list functions
+        function showfriendspanel() {
+            var e = document.getElementById('friendscontainer');
+            if (e.style.display == 'block')
+                e.style.display = 'none';
+            else {
+                refreshfriendslist();
+                e.style.display = 'block';
+            }
+        }
+
+        function refreshfriendslist() {
+            // Empty the list first
+            var e = document.getElementById('friendspanel');
+            e.innerHTML = "";
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("getFriends", "Home")',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                cache: false,
+                data: {
+                    name: '@(User.Identity.GetUserName())'
+                },//data,
+                success: function (friendsStr) {
+                    for(var i = 0; i < friendsStr.length; i++)
+                    {
+                        console.log(friendsStr[i]); 
+                        $('#friendspanel').append('<div class="friendlistitem">' + friendsStr + "<br/>").show();
+                    }
+                    $('#friendspanel').append($('</div>'));
+                  //  $('#friendspanel').attr("style", "z-index: 2; display: block;");
+                },
+                error: function (ob, errStr) {
+                    alert("An error occured, please try again.");
+                }
+            });
+        }
+
+        function friendclick(i) {
+           // $('#message').html($('#message').html() + "<img src='../Resources/Icons/" + i + ".gif'/>");
+           /// document.getElementById('emoticoncontainer').style.display = 'none';
+           // $('#message').html($('#message').html()).focus();
+        }
+        function friendhover(i) {
+           // document.getElementById("emoticonpreview").src = "../Resources/Icons/" + i + ".gif";
+        }
+
+        function addUser() {
+            var otheruser = $.connection.chatHub.server.getOtherUser("@(User.Identity.GetUserName())");
+            
+            @*console.log(otheruser);
+            if (otheruser) {
+                var data = JSON.stringify({ 'name': '@(User.Identity.GetUserName())', 'otherusername': otheruser });
+                alert(otheruser);
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("addFriends", "AccountController")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    cache: false,
+                    data: data,
+                    success: function(value){
+                        alert(value);
+                    },
+                    error: function(ob, errStr){
+                        alert("An error occured, please try again.");
+                    }
+                });
+            }*@
+        }
+
         
 
+        $(document).mouseup(function (e) {
+            var container = $("#friendscontainer");
+
+            if (!container.is(e.target) // if the target of the click isn't the container...
+                && container.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                document.getElementById('friendscontainer').style.display = 'none';
+            }
+        });
 
         // Pressing enter will send the message in the textbox
         $('#message').keydown(function (e) {
@@ -84,6 +168,32 @@
                 qs();
                 var returnvalue = qsParm['topic'];
                 chat.server.returnValue(returnvalue);
+            };
+
+            chat.client.getotheruser = function (otheruser) {
+                alert(otheruser);
+
+                if (otheruser) {
+                   // var data = JSON.stringify({ name: '@(User.Identity.GetUserName())', otherusername: otheruser });
+                    alert(otheruser);
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("addFriends", "Home")',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        cache: false,
+                        data: {
+                            name: '@(User.Identity.GetUserName())',
+                            otherusername: otheruser
+                                },//data,
+                        success: function (value) {
+                            alert(value);
+                        },
+                        error: function (ob, errStr) {
+                            alert("An error occured, please try again.");
+                        }
+                    });
+                }
             };
 
 
@@ -226,6 +336,22 @@
             </div>
             <div id="emoticontriangleouter"></div>
             <div id="emoticontriangleinner"></div>
+        </div>
+
+        <div id="friendsbutton" onclick="showfriendspanel()">
+            <img src="~/Resources/Icons/emote.png" />
+        </div>
+        <div id="friendscontainer">
+            <hr />
+            <div id="friendspanel">
+                   Hello
+            </div>
+            <div id="friendstriangleouter"></div>
+            <div id="friendstriangleinner"></div>
+        </div>
+
+        <div id="addfriendbutton" onclick="addUser()">
+            <img src="~/Resources/Icons/25.gif" />
         </div>
     </div>
 </div>
