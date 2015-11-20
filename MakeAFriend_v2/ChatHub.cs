@@ -43,6 +43,11 @@ namespace MakeAFriend_v2
                 }
             }
 
+            if (currentRoom.users.Count == 2)
+            {
+
+            }
+
             foreach (User u in currentRoom.users)
             {
                 Clients.Client(u.connectionId).broadcastMessage(name, message);
@@ -133,7 +138,15 @@ namespace MakeAFriend_v2
 
             foreach (User u in currentRoom.users)
             {
-                Clients.Client(u.connectionId).connectionMessage(" has left the room.");
+                if (u.connectionId != Context.ConnectionId)
+                {
+                    Clients.Client(u.connectionId).connectionMessage(" has left the room.");
+                }
+
+                //if (u.connectionId == Context.ConnectionId)
+                //{
+                //    currentRoom.users.Remove(u);
+                //}
             }
             return base.OnDisconnected(stopCalled);
         }

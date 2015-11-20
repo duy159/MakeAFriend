@@ -7,22 +7,6 @@
 <link href="~/Content/waves.min.css" rel="stylesheet" type="text/css" />
 }
 
-<div id="headercontainer">
-    <h1 id="headerTitle">Choose a Topic</h1>
-    @if (Request.IsAuthenticated)
-    {
-        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-        {
-        @Html.AntiForgeryToken()
-        <div id="loginpartial">
-            Hi @(User.Identity.GetUserName())!
-            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-        </div>
-        }
-    }
-</div>
-
-
 @section js {
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="~/Scripts/waves.min.js"></script>
@@ -47,12 +31,31 @@
 </script>
 }
 
+@*<div id="headercontainer">
+    <h1 id="headerTitle">Choose a Topic</h1>
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+            <div id="loginpartial">
+                Hi @(User.Identity.GetUserName())!
+                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            </div>
+        }
+    }
+</div>*@
+
+<div id="headercontainer">
+    <h1 id="headerTitle">Choose a Topic</h1>
+</div>
+
 <div id="pagecontent">
     <div id="topiccontainer-wrapper">
         <div id="topiccontainer">
             <div class="row1">
                 <div class="column1 category-hover" onclick="categoryclick('Movies')">
-                    <img class="topic-img" src="~/Resources/Topics/movies-hover.jpg"/>
+                    <img class="topic-img" src="~/Resources/Topics/movies-hover.jpg" />
                     <img class="topic-img-hover" src="~/Resources/Topics/movies.jpg" />
                     <div class="topic-text">Movies</div>
                 </div>
@@ -69,7 +72,7 @@
             </div>
             <div class="row2">
                 <div class="column1 category-hover" onclick="categoryclick('Music')">
-                    <img class="topic-img" src="~/Resources/Topics/music-hover.jpg"/>
+                    <img class="topic-img" src="~/Resources/Topics/music-hover.jpg" />
                     <img class="topic-img-hover" src="~/Resources/Topics/music.jpg" />
                     <div class="topic-text">Music</div>
                 </div>

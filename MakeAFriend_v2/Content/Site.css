@@ -231,8 +231,53 @@ body {
 }
 
 
+/******************************** LOBBY ********************************/
+#matchcontainer {
+    height: 100%;
+    width: 500px;
+    position: relative;
+    float: right;
+}
+#matchbutton {
+    position: absolute;
+    top: 150px;
+    font-size: 25pt;
+    background: #cb0202;
+    color: white;
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 4px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+#matchbutton:hover {
+    text-decoration: none;
+    background-color: red;
+}
+#welcomecontainer {
+    position: absolute;
+    top: 100px;
+}
+#welcomemessage {
+    /*position: absolute;
+    right: 20px;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;*/
+    /*height: 80px;*/
+    font-size: 40pt;
+    font-weight: 600 !important;
+}
+#welcomesubmessage {
+    font-size: 20pt;
+    font-weight: 400 !important;
+}
+
+
 /******************************** CATEGORY ********************************/
-#loginpartial {
+/*#loginpartial {
     position: absolute;
     right: 20px;
     top: 0;
@@ -241,7 +286,7 @@ body {
     margin-bottom: auto;
     height: 40px;
     font-size: 20pt;
-}
+}*/
 #topiccontainer-wrapper {
     opacity: 0;
     position: relative;

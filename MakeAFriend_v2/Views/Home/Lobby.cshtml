@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Lobby";
+}
+
+<div id="headercontainer">
+    <h1 id="headerTitle">Welcome!</h1>
+</div>
+
+<div id="pagecontent">
+    <div>
+        @if (Request.IsAuthenticated)
+        {
+            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+                @Html.AntiForgeryToken()
+                
+
+                @*<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>*@
+               
+            }
+        }
+    </div>
+
+    <div id="matchcontainer">
+        <div id="welcomecontainer">
+            <div id="welcomemessage">
+                Hi, @(User.Identity.GetUserName())!
+            </div>
+            <div id="welcomesubmessage">
+                Get started by selecting a topic.
+            </div>
+            <a id="matchbutton" href="@Url.Action("Category", "Home")">Choose topic</a>
+        </div>
+    </div>
+</div>

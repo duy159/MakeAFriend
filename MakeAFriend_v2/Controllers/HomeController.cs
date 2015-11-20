@@ -55,5 +55,11 @@ namespace MakeAFriend_v2.Controllers
             ViewBag.Message = "Your category page";
             return View();
         }
+
+        public ActionResult Lobby()
+        {
+            ViewBag.Message = "Your lobby page";
+            return View();
+        }
     }
 }
