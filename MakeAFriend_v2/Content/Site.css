@@ -575,6 +575,56 @@ body {
     border-right: solid 34px transparent;
 }
 
+/* FRIENDS LIST */
+#friendsbutton {
+    float: right;
+    cursor:pointer;
+    margin-top: -32px;
+    margin-right: 90px;
+    position: relative;
+    z-index: 1;
+}
+#addfriendbutton {
+    float: right;
+    cursor:pointer;
+    margin-top: -32px;
+    margin-right: 120px;
+    position: relative;
+    z-index: 1;
+}
+#friendscontainer {
+    position: absolute;
+    /*height: 260px;*/
+    /*width: 137px;*/
+    height: 300px;
+    width: 300px;
+    bottom: 70px;
+    right: 35px;
+    background-color: white;
+    border: solid 1px #899dff;
+    display: none;
+    padding: 20px;
+}
+#friendspanel {
+    height:135px;
+    margin-top: 10px;
+}
+#friendstriangleouter {
+    position: absolute;
+    bottom: -30px;
+    right: 30px;
+    border-top: solid 30px #899dff;
+    border-left: solid 35px transparent;
+    border-right: solid 35px transparent;
+}
+#friendstriangleinner {
+    position: absolute;
+    bottom: -29px;
+    right: 31px;
+    border-top: solid 29px white;
+    border-left: solid 34px transparent;
+    border-right: solid 34px transparent;
+}
 
 /* EXIT */
 #exitcontainer {

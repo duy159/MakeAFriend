@@ -12,14 +12,17 @@ using MakeAFriend_v2.Models;
 
 namespace MakeAFriend_v2.Controllers
 {
+
     [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        public ApplicationDbContext _db = ApplicationDbContext.Create();
+
         public AccountController()
-        {
+        { 
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -154,7 +157,7 @@ namespace MakeAFriend_v2.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, UserStatus = "Offline", NumReports = 0 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -396,7 +399,18 @@ namespace MakeAFriend_v2.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            changeStatus(User.Identity.GetUserId(), User.Identity.GetUserName(), "Offline");
             return RedirectToAction("Index", "Home");
+        }
+
+        // Change functions
+        public void changeStatus(string id, string name, string status)
+        {
+            var user = new ApplicationUser() { Id = id, UserName = name, UserStatus = status };
+
+            _db.Users.Attach(user);
+            _db.Entry(user).Property(x => x.UserStatus).IsModified = true;
+            _db.SaveChanges();
         }
 
         //
@@ -426,6 +440,7 @@ namespace MakeAFriend_v2.Controllers
 
             base.Dispose(disposing);
         }
+
 
         #region Helpers
         // Used for XSRF protection when adding external logins

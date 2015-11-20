@@ -54,6 +54,39 @@ namespace MakeAFriend_v2
             }
         }
 
+        public void GetOtherUser(string name)
+        {
+            string userid = "";
+            //Clients.All.broadcastMessage(name, message);
+
+            Room currentRoom = null;
+            foreach (KeyValuePair<string, Room> existingRoom in rooms[roomsType])
+            {
+                foreach (User u in existingRoom.Value.users)
+                {
+                    if (Context.ConnectionId.Equals(u.connectionId) && existingRoom.Key.Equals(u.roomId))
+                    {
+                        currentRoom = existingRoom.Value;
+                        break;
+                    }
+                }
+            }
+            string connectionid = "";
+            foreach (User u in currentRoom.users)
+            {
+                if (u.name == name)
+                {
+                    connectionid = u.connectionId;
+                    userid = u.name;
+                    break;
+                }
+            }
+
+            Clients.Client(connectionid).getotheruser(userid);
+
+            //return userid;
+        }
+
         public void ReturnValue(string returnvalue)
         {
             Debug.WriteLine(returnvalue);
