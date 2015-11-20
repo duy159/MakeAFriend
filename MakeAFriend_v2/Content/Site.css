@@ -232,17 +232,25 @@ body {
 
 
 /******************************** LOBBY ********************************/
+#lobbycontainer {
+    background-color: #2b2b2b;
+    height: 100%;
+    width: 100%;
+}
 #matchcontainer {
+    position: absolute;
+    left: 600px;
+    top: 0;
     height: 100%;
     width: 500px;
-    position: relative;
-    float: right;
+    float: left;
 }
 #matchbutton {
     position: absolute;
     top: 150px;
     font-size: 25pt;
     background: #cb0202;
+    border: 1px solid #cb0202;
     color: white;
     border-radius: 4px;
     padding-left: 10px;
@@ -258,6 +266,7 @@ body {
 #welcomecontainer {
     position: absolute;
     top: 100px;
+    left: 80px;
 }
 #welcomemessage {
     /*position: absolute;
@@ -269,10 +278,45 @@ body {
     /*height: 80px;*/
     font-size: 40pt;
     font-weight: 600 !important;
+    color: white;
 }
 #welcomesubmessage {
     font-size: 20pt;
     font-weight: 400 !important;
+    color: white;
+}
+#friendcontainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 600px;
+    float: left;
+}
+#friendpanel {
+    position: absolute;
+    left: 80px;
+    bottom: 0;
+    top: 50px;
+    background-color: white;
+    width: 400px;
+    border-radius: 5px 5px 0 0;
+}
+#friendheader {
+    border-radius: 5px 5px 0 0;
+    height: 45px;
+    width: 100%;
+}
+#friendlist-wrapper {
+    position: absolute;
+    top: 68px;
+    bottom: 0;
+    width: 100%;
+    overflow-y: scroll;
+}
+#friendlist {
+    width: 100%;
+    height: 1000px;
 }
 
 

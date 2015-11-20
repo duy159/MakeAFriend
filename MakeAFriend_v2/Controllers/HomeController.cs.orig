@@ -61,12 +61,13 @@ namespace MakeAFriend_v2.Controllers
             return View();
         }
 
+<<<<<<< HEAD
         public ActionResult Lobby()
         {
             ViewBag.Message = "Your lobby page";
             return View();
         }
-
+=======
         // Friend functions
         public ActionResult addFriends(string name, string otherusername)
         {
@@ -116,5 +117,6 @@ namespace MakeAFriend_v2.Controllers
             _db.SaveChanges();
         }
 
+>>>>>>> 2158d24e38aa0f93fa9b23b1d366a4771624f3f5
     }
 }

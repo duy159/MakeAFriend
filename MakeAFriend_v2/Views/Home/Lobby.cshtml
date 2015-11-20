@@ -22,15 +22,30 @@
         }
     </div>
 
-    <div id="matchcontainer">
-        <div id="welcomecontainer">
-            <div id="welcomemessage">
-                Hi, @(User.Identity.GetUserName())!
+    <div id="lobbycontainer">
+        <div id="friendcontainer">
+            <div id="friendpanel">
+                <div id="friendheader">
+                </div>
+                <hr />
+                <div id="friendlist-wrapper">
+                    <div id="friendlist">
+
+                    </div>
+                </div>
             </div>
-            <div id="welcomesubmessage">
-                Get started by selecting a topic.
+        </div>
+
+        <div id="matchcontainer">
+            <div id="welcomecontainer">
+                <div id="welcomemessage">
+                    Hi, @(User.Identity.GetUserName())!
+                </div>
+                <div id="welcomesubmessage">
+                    Get started by selecting a topic.
+                </div>
+                <a id="matchbutton" href="@Url.Action("Category", "Home")">Choose topic</a>
             </div>
-            <a id="matchbutton" href="@Url.Action("Category", "Home")">Choose topic</a>
         </div>
     </div>
 </div>
