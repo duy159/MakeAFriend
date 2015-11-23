@@ -26,15 +26,22 @@
                     name: '@(User.Identity.GetUserName())'
                 },//data,
                 success: function (friendsStr) {
+                    alert("friendsStr[0]: " + friendsStr[0]); //Duy
+                    alert("friendsStr[1]: " + friendsStr[1]); //TestName
+                    alert("friendsStr[2]: " + friendsStr[2]); //
+                    alert("friendsStr[2]: " + friendsStr[3]); //TestName - TestStatus
+                    //alert("friendsStr[1][0]: " + friendsStr[1][0]);
+                    //alert("friendsStr[1]: " + friendStr[1]);
+
                     if (friendsStr[0] != null) {
-                        for (var i = 0; i < friendsStr[0][0].length; i++) {
+                        for (var i = 0; i < friendsStr.length/2; i++) {
                             console.log(friendsStr[i]);
-                            $('#friendlist').append('<div class="friendlistitem" onclick="friendclick(' + friendsStr[0] + ')">'
+                            $('#friendlist').append('<div class="friendlistitem" onclick="friendclick(&quot;' + friendsStr[i] + '&quot;)">'
                                 + '<span class="friendname">'
-                                + friendsStr[0]
+                                + friendsStr[i]
                                 + '</span>'
                                 + '<span class="friendstatus">'
-                                + friendsStr[1]
+                                + friendsStr[i + friendsStr.length/2]
                                 + '</span>'
                                 + '</div>').show();
                         }

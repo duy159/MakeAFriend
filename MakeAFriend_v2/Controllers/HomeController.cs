@@ -96,14 +96,16 @@ namespace MakeAFriend_v2.Controllers
 
             ApplicationUser currUser = null;
             foreach (ApplicationUser u in user.ToArray<ApplicationUser>())
+            {
                 currUser = u;
-            
+            }
 
             var friends = from m in _db.MyFriends
                           where m.Id == currUser.Id
                           select m;
 
-            int length = friends.ToArray().Length;
+            int length = (friends.ToArray()).Length;
+            length = length + 1;
             int i = 0;
             string[,] friendsStr = new string[2, length];
 
@@ -113,6 +115,11 @@ namespace MakeAFriend_v2.Controllers
                 friendsStr[1,i] = f.UserStatus;
                 i++;
             }
+
+            friendsStr[0, 1] = "TestName";
+            friendsStr[1, 1] = "TestStatus";
+
+            System.Diagnostics.Debug.WriteLine(friendsStr[0, 1]);
 
             return Json(friendsStr, JsonRequestBehavior.AllowGet);
         }
