@@ -94,8 +94,13 @@ namespace MakeAFriend_v2.Controllers
                        where m.UserName == name
                        select m;
 
+            ApplicationUser currUser = null;
+            foreach (ApplicationUser u in user.ToArray<ApplicationUser>())
+                currUser = u;
+            
+
             var friends = from m in _db.MyFriends
-                          where m.Id == m.Id
+                          where m.Id == currUser.Id
                           select m;
 
             int length = friends.ToArray().Length;

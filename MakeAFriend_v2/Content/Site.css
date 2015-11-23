@@ -80,7 +80,7 @@ body {
 }
 
 /* CONTENT */
-#pagecontent {
+.pagecontent {
     width: 100%;
     height: calc(100% - 80px);
     position: absolute;
@@ -232,6 +232,9 @@ body {
 
 
 /******************************** LOBBY ********************************/
+.lobbycontainer-wrapper {
+    overflow: hidden;
+}
 #lobbycontainer {
     background-color: #2b2b2b;
     height: 100%;
@@ -323,6 +326,24 @@ body {
 }
 #logoutform:hover {
     text-decoration: none;
+}
+.friendlistitem {
+    padding: 10px;
+    border-bottom: 1px solid #eeeeee;
+    cursor: pointer;
+    transition: 0.4s;
+}
+.friendlistitem:hover {
+    background-color: #e8e8e8;
+}
+.friendname {
+    margin-left: 30px;
+    font-size: 20pt;
+}
+.friendstatus {
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
 }
 
 
