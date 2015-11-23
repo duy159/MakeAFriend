@@ -40,6 +40,14 @@
             <div id="welcomecontainer">
                 <div id="welcomemessage">
                     Hi, @(User.Identity.GetUserName())!
+                    @if (Request.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @class = "navbar-right" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <a id="logoutform" href="javascript:document.getElementById('logoutForm').submit()">Sign out</a>
+                        }
+                    }
                 </div>
                 <div id="welcomesubmessage">
                     Get started by selecting a topic.

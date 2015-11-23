@@ -318,6 +318,12 @@ body {
     width: 100%;
     height: 1000px;
 }
+#logoutform {
+    margin-left: 20px;
+}
+#logoutform:hover {
+    text-decoration: none;
+}
 
 
 /******************************** CATEGORY ********************************/

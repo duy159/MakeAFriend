@@ -19,7 +19,7 @@ namespace MakeAFriend_v2.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Category", "Home");
+                return RedirectToAction("Lobby", "Home");
             }
             return View();
         }

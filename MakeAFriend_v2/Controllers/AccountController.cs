@@ -84,7 +84,7 @@ namespace MakeAFriend_v2.Controllers
             {
                 case SignInStatus.Success:
                     //return RedirectToLocal(returnUrl);
-                    return RedirectToAction("Category", "Home", model);
+                    return RedirectToAction("Lobby", "Home", model);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
