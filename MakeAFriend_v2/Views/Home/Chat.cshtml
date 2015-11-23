@@ -84,7 +84,7 @@
                     for(var i = 0; i < friendsStr[0][0].length; i++)
                     {
                         console.log(friendsStr[i]); 
-                        $('#friendlist').append('<div class="friendlistitem">' + friendsStr[0] + " " + friendsStr[1] + "<br/>").show();
+                        $('#friendlist').append('<div class="friendlistitem">' + friendsStr[0][i] + " " + friendsStr[1][i] + "<br/>").show();
                     }
                     $('#friendspanel').append($('</div>'));
                   //  $('#friendspanel').attr("style", "z-index: 2; display: block;");
