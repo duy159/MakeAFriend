@@ -95,11 +95,12 @@ namespace MakeAFriend_v2.Controllers
                           select m;
             int length = friends.ToArray().Length;
             int i = 0;
-            string[] friendsStr = new string[length];
+            string[,] friendsStr = new string[2, length];
 
             foreach (ApplicationUser f in friends.ToArray<ApplicationUser>())
             {
-                friendsStr[i] = f.UserName + " " + f.UserStatus;
+                friendsStr[0,i] = f.UserName;
+                friendsStr[1,i] = f.UserStatus;
                 i++;
             }
 

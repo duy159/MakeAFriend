@@ -3,6 +3,40 @@
     ViewBag.Title = "Lobby";
 }
 
+@section js {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script>
+        $(function () {
+            // Empty the list first
+            alert("Populating FriendsList.");
+            var e = document.getElementById('friendlist');
+            e.innerHTML = "";
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("getFriends", "Home")',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                cache: false,
+                data: {
+                    name: '@(User.Identity.GetUserName())'
+                },//data,
+                success: function (friendsStr) {
+                    for (var i = 0; i < friendsStr[0][0].length; i++) {
+                        console.log(friendsStr[i]);
+                        $('#friendlist').append('<div class="friendlistitem">' + friendsStr[0] + " " + friendsStr[1] + "<br/>").show();
+                    }
+                    $('#friendlist').append($('</div>'));
+                    //  $('#friendspanel').attr("style", "z-index: 2; display: block;");
+                },
+                error: function (ob, errStr) {
+                    alert("An error occured, please try again.");
+                }
+            });
+        });
+    </script>
+    }
+
 <div id="headercontainer">
     <h1 id="headerTitle">Welcome!</h1>
 </div>
@@ -30,7 +64,7 @@
                 <hr />
                 <div id="friendlist-wrapper">
                     <div id="friendlist">
-
+                        Hi
                     </div>
                 </div>
             </div>
