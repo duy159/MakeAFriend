@@ -90,14 +90,19 @@ namespace MakeAFriend_v2.Controllers
         // Friend functions
         public ActionResult getFriends(string name)
         {
-            var friends = from m in _db.Users
-                          where m.UserName == name
+            var user = from m in _db.Users
+                       where m.UserName == name
+                       select m;
+
+            var friends = from m in _db.MyFriends
+                          where m.Id == m.Id
                           select m;
+
             int length = friends.ToArray().Length;
             int i = 0;
             string[,] friendsStr = new string[2, length];
 
-            foreach (ApplicationUser f in friends.ToArray<ApplicationUser>())
+            foreach (Friends f in friends.ToArray<Friends>())
             {
                 friendsStr[0,i] = f.UserName;
                 friendsStr[1,i] = f.UserStatus;
