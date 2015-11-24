@@ -19,6 +19,7 @@ namespace MakeAFriend_v2
         private static ConcurrentDictionary<string, Room> roomsMusic = new ConcurrentDictionary<string, Room>();
         private static ConcurrentDictionary<string, Room> roomsAnimals = new ConcurrentDictionary<string, Room>();
         private static ConcurrentDictionary<string, Room> roomsSports = new ConcurrentDictionary<string, Room>();
+        private static ConcurrentDictionary<string, Room> roomsPersonal = new ConcurrentDictionary<string, Room>();
 
         private static ConcurrentDictionary<string, Room>[] rooms = new ConcurrentDictionary<string, Room>[6] {
             roomsMovies, roomsTravel, roomsGames, roomsMusic, roomsAnimals, roomsSports
@@ -82,7 +83,7 @@ namespace MakeAFriend_v2
                 }
             }
 
-            Clients.Client(connectionid).getotheruser(userid);
+            Clients.Client(connectionid).getotheruser(userid, connectionid);
 
             //return userid;
         }

@@ -68,7 +68,7 @@ namespace MakeAFriend_v2.Controllers
         }
 
         // Friend functions
-        public ActionResult addFriends(string name, string otherusername)
+        public ActionResult addFriends(string name, string otherusername, string otheruserip)
         {
             var user = from m in _db.Users
                        where m.UserName == name
@@ -82,6 +82,7 @@ namespace MakeAFriend_v2.Controllers
             f.FriendId = friend.First<ApplicationUser>().Id;
             f.UserName = friend.First<ApplicationUser>().UserName;
             f.UserStatus = friend.First<ApplicationUser>().UserStatus;
+            f.ConnectionId = otheruserip;
             _db.MyFriends.Add(f);
             _db.SaveChanges();
             return Json("Success", JsonRequestBehavior.AllowGet);
@@ -105,19 +106,16 @@ namespace MakeAFriend_v2.Controllers
                           select m;
 
             int length = (friends.ToArray()).Length;
-            length = length + 1;
             int i = 0;
-            string[,] friendsStr = new string[2, length];
+            string[,] friendsStr = new string[3, length];
 
             foreach (Friends f in friends.ToArray<Friends>())
             {
                 friendsStr[0,i] = f.UserName;
                 friendsStr[1,i] = f.UserStatus;
+                friendsStr[2, i] = f.ConnectionId;
                 i++;
             }
-
-            friendsStr[0, 1] = "TestName";
-            friendsStr[1, 1] = "TestStatus";
 
             System.Diagnostics.Debug.WriteLine(friendsStr[0, 1]);
 

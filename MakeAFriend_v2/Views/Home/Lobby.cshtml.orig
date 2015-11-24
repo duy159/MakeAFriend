@@ -7,12 +7,8 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
     <script>
-        // make it accept 2 parameters, make a new function in chathub. make this href to chat (refer to categories)
-        // and append personal to the url. use parser to read and create or find existing room. add user to room.
         function friendclick(friend) {
             alert("Clicked on" + friend);
-
-           
         }
 
         $(function () {
@@ -30,29 +26,35 @@
                     name: '@(User.Identity.GetUserName())'
                 },//data,
                 success: function (friendsStr) {
-                    //alert("friendsStr[0]: " + friendsStr[0]); //Duy
-                    //alert("friendsStr[1]: " + friendsStr[1]); //TestName
-                    //alert("friendsStr[2]: " + friendsStr[2]); //
-                    //alert("friendsStr[2]: " + friendsStr[3]); //TestName - TestStatus
+                    alert("friendsStr[0]: " + friendsStr[0]); //Duy
+                    alert("friendsStr[1]: " + friendsStr[1]); //TestName
+                    alert("friendsStr[2]: " + friendsStr[2]); //
+                    alert("friendsStr[2]: " + friendsStr[3]); //TestName - TestStatus
                     //alert("friendsStr[1][0]: " + friendsStr[1][0]);
                     //alert("friendsStr[1]: " + friendStr[1]);
 
                     if (friendsStr[0] != null) {
-                        for (var i = 0; i < friendsStr.length/3; i++) {
+<<<<<<< Updated upstream
+                        for (var i = 0; i < friendsStr.length/2; i++) {
                             console.log(friendsStr[i]);
-                            $('#friendlist').append('<div class="friendlistitem" onclick="friendclick(&quot;' 
-                                + friendsStr[i] 
-                                + " " 
-                                + friendsStr[i + ((friendsStr.length/3) * 2)]
-                                + '&quot;)">'
+                            $('#friendlist').append('<div class="friendlistitem" onclick="friendclick(&quot;' + friendsStr[i] + '&quot;)">'
                                 + '<span class="friendname">'
                                 + friendsStr[i]
                                 + '</span>'
                                 + '<span class="friendstatus">'
-                                + friendsStr[i + friendsStr.length/3]
+                                + friendsStr[i + friendsStr.length/2]
+=======
+                        for (var i = 0; i < friendsStr[0].length; i++) {
+                            console.log(friendsStr[i]);
+                            $('#friendlist').append('<div class="friendlistitem" onclick="friendclick(' + friendsStr[0][i] + ')">'
+                                + '<span class="friendname">'
+                                + friendsStr[0][i]
                                 + '</span>'
-                                + '</div>'
-                            ).show();
+                                + '<span class="friendstatus">'
+                                + friendsStr[1][i]
+>>>>>>> Stashed changes
+                                + '</span>'
+                                + '</div>').show();
                         }
                     }
                     //$('#friendlist').append($('</div>'));

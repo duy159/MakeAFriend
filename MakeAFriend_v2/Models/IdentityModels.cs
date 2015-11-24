@@ -20,8 +20,9 @@ namespace MakeAFriend_v2.Models
             return userIdentity;
         }
 
-        public string UserStatus { get; set; }  // Online status of user.
-        public int NumReports { get; set; }     // Number of reports user has.
+        public string UserStatus { get; set; }      // Online status of user.
+        public string ConnectionId { get; set; }    // Connection Id.
+        public int NumReports { get; set; }         // Number of reports user has.
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -61,5 +62,9 @@ public class Friends
     [Required]
     [Display(Name = "User Status")]
     public string UserStatus { get; set; }
+
+    [Required]
+    [Display(Name = "Connection Id")]
+    public string ConnectionId { get; set; }
 
 }
