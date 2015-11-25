@@ -19,13 +19,15 @@ namespace MakeAFriend_v2
         private static ConcurrentDictionary<string, Room> roomsMusic = new ConcurrentDictionary<string, Room>();
         private static ConcurrentDictionary<string, Room> roomsAnimals = new ConcurrentDictionary<string, Room>();
         private static ConcurrentDictionary<string, Room> roomsSports = new ConcurrentDictionary<string, Room>();
-        private static ConcurrentDictionary<string, Room> roomsPersonal = new ConcurrentDictionary<string, Room>();
+        private static ConcurrentDictionary<string, Room> roomsFriend = new ConcurrentDictionary<string, Room>();
 
-        private static ConcurrentDictionary<string, Room>[] rooms = new ConcurrentDictionary<string, Room>[6] {
-            roomsMovies, roomsTravel, roomsGames, roomsMusic, roomsAnimals, roomsSports
+        private static ConcurrentDictionary<string, Room>[] rooms = new ConcurrentDictionary<string, Room>[7] {
+            roomsMovies, roomsTravel, roomsGames, roomsMusic, roomsAnimals, roomsSports, roomsFriend
         };
 
         private static int roomsType = -1;
+        private static string friendName = "";
+        private static string friendIp = "";
 
         public void Send(string name, string message)
         {
@@ -44,10 +46,10 @@ namespace MakeAFriend_v2
                 }
             }
 
-            if (currentRoom.users.Count == 2)
-            {
+            //if (currentRoom.users.Count == 2)
+            //{
 
-            }
+            //}
 
             foreach (User u in currentRoom.users)
             {
@@ -55,7 +57,7 @@ namespace MakeAFriend_v2
             }
         }
 
-        public void GetOtherUser(string name)
+        public void GetOtherUser()
         {
             string userid = "";
             //Clients.All.broadcastMessage(name, message);
@@ -75,7 +77,7 @@ namespace MakeAFriend_v2
             string connectionid = "";
             foreach (User u in currentRoom.users)
             {
-                if (u.name == name)
+                if (u.name != Context.User.Identity.Name)
                 {
                     connectionid = u.connectionId;
                     userid = u.name;
@@ -83,7 +85,7 @@ namespace MakeAFriend_v2
                 }
             }
 
-            Clients.Client(connectionid).getotheruser(userid, connectionid);
+            Clients.Client(Context.ConnectionId).getotheruser(userid, connectionid);
 
             //return userid;
         }
@@ -111,7 +113,19 @@ namespace MakeAFriend_v2
                 case "Sports":
                     roomsType = 5;
                     break;
+                case "Friend":
+                    roomsType = 6;
+                    break;
+                case "FriendJoining":
+                    roomsType = -1;
+                    break;
             }
+        }
+
+        public void ReturnFriend(string name, string ip)
+        {
+            friendName = name;
+            friendIp = ip;
         }
 
         public override Task OnConnected()
@@ -121,29 +135,69 @@ namespace MakeAFriend_v2
             System.Threading.Timer timer = null;
             timer = new System.Threading.Timer((obj) =>
             {
-              
-                CreateUser();
 
-                Room currentRoom = null;
-                foreach (KeyValuePair<string, Room> existingRoom in rooms[roomsType])
+                if (roomsType != 6 && roomsType != -1)
                 {
-                    foreach (User u in existingRoom.Value.users)
+                    CreateUser();
+
+                    Room currentRoom = null;
+                    foreach (KeyValuePair<string, Room> existingRoom in rooms[roomsType])
                     {
-                        if (Context.ConnectionId.Equals(u.connectionId) && existingRoom.Key.Equals(u.roomId))
+                        foreach (User u in existingRoom.Value.users)
                         {
-                            currentRoom = existingRoom.Value;
-                            break;
+                            if (Context.ConnectionId.Equals(u.connectionId) && existingRoom.Key.Equals(u.roomId))
+                            {
+                                currentRoom = existingRoom.Value;
+                                break;
+                            }
                         }
                     }
-                }
 
-                if (currentRoom.users.Count == 2)
-                {
-                    foreach (User u in currentRoom.users)
+                    if (currentRoom.users.Count == 2)
                     {
-                        Clients.Client(u.connectionId).foundMatch();
-                        Clients.Client(u.connectionId).connectionMessage(" has joined the room.");
+                        foreach (User u in currentRoom.users)
+                        {
+                            Clients.Client(u.connectionId).foundMatch();
+                            Clients.Client(u.connectionId).connectionMessage(" have joined the room.");
+                        }
                     }
+                } else if (roomsType == 6)
+                {
+                    Clients.Client(Context.ConnectionId).getfriendinfo();
+
+                    System.Threading.Timer timer2 = null;
+                    timer2 = new System.Threading.Timer((obj2) =>
+                    {
+                        CreateUser();
+
+                        Clients.Client(Context.ConnectionId).foundMatch();
+
+                        Room currentRoom = null;
+                        foreach (KeyValuePair<string, Room> existingRoom in rooms[roomsType])
+                        {
+                            foreach (User u in existingRoom.Value.users)
+                            {
+                                if (Context.ConnectionId.Equals(u.connectionId) && existingRoom.Key.Equals(u.roomId))
+                                {
+                                    currentRoom = existingRoom.Value;
+                                    break;
+                                }
+                            }
+                        }
+
+                        foreach (User u in currentRoom.users)
+                        {
+                            //Clients.Client(u.connectionId).foundMatch();
+                            if (u.connectionId != Context.ConnectionId)
+                            {
+                                Debug.WriteLine("Found friend");
+                                Debug.WriteLine("Found person's connection: " + u.connectionId);
+                                Clients.Client(u.connectionId).roominvitation();
+                            }
+                        }
+
+                        timer2.Dispose();
+                    }, null, 4000, System.Threading.Timeout.Infinite);
                 }
 
 
@@ -174,7 +228,7 @@ namespace MakeAFriend_v2
             {
                 if (u.connectionId != Context.ConnectionId)
                 {
-                    Clients.Client(u.connectionId).connectionMessage(" has left the room.");
+                    Clients.Client(u.connectionId).connectionMessage(" have left the room.");
                 }
 
                 //if (u.connectionId == Context.ConnectionId)
@@ -192,7 +246,26 @@ namespace MakeAFriend_v2
             User user = new User();
             user.name = Context.User.Identity.Name;
             user.connectionId = Context.ConnectionId;
-            FindRoom(user);
+
+            if (roomsType != 6)
+            {
+                FindRoom(user);
+            } else if (roomsType == 6) {
+                User friend = new User();
+                Debug.WriteLine("FriendName: " + friendName);
+                Debug.WriteLine("FriendIp: " + friendIp);
+                friend.name = friendName;
+                friend.connectionId = friendIp;
+
+                Room r = new Room();
+                string roomId = Guid.NewGuid().ToString();
+                user.roomId = roomId;
+                friend.roomId = roomId;
+                r.users.Add(user);
+                r.users.Add(friend);
+                rooms[roomsType].TryAdd(roomId, r);
+                
+            }
         }
 
         private void FindRoom(User user)

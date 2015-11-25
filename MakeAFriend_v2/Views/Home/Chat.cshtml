@@ -56,17 +56,17 @@
 
 
         // Friends list functions
-        function showfriendspanel() {
-            var e = document.getElementById('friendscontainer');
-            if (e.style.display == 'block')
-                e.style.display = 'none';
-            else {
-                refreshfriendslist();
-                e.style.display = 'block';
-            }
-        }
+        //function showfriendspanel() {
+        //    var e = document.getElementById('friendscontainer');
+        //    if (e.style.display == 'block')
+        //        e.style.display = 'none';
+        //    else {
+        //        refreshfriendslist();
+        //        e.style.display = 'block';
+        //    }
+        //}
 
-        function refreshfriendslist() {
+        @*function refreshfriendslist() {
             // Empty the list first
             var e = document.getElementById('friendspanel');
             e.innerHTML = "";
@@ -83,7 +83,7 @@
                 success: function (friendsStr) {
                     for(var i = 0; i < friendsStr[0][0].length; i++)
                     {
-                        console.log(friendsStr[i]); 
+                        console.log(friendsStr[i]);
                         $('#friendlist').append('<div class="friendlistitem">' + friendsStr[0][i] + " " + friendsStr[1][i] + "<br/>").show();
                     }
                     $('#friendspanel').append($('</div>'));
@@ -93,7 +93,7 @@
                     alert("An error occured, please try again.");
                 }
             });
-        }
+        }*@
 
         function friendclick(i) {
            // $('#message').html($('#message').html() + "<img src='../Resources/Icons/" + i + ".gif'/>");
@@ -105,8 +105,8 @@
         }
 
         function addUser() {
-            var otheruser = $.connection.chatHub.server.getOtherUser("@(User.Identity.GetUserName())");
-            
+            var otheruser = $.connection.chatHub.server.getOtherUser();
+
             @*console.log(otheruser);
             if (otheruser) {
                 var data = JSON.stringify({ 'name': '@(User.Identity.GetUserName())', 'otherusername': otheruser });
@@ -128,7 +128,7 @@
             }*@
         }
 
-        
+
 
         $(document).mouseup(function (e) {
             var container = $("#friendscontainer");
@@ -163,12 +163,22 @@
                 $('body').addClass('loaded');
             };
 
-
+            var topicvalue;
+            var namevalue;
+            var ipvalue;
             chat.client.gettopic = function () {
                 qsParm['topic'] = null;
+                qsParm['name'] = null;
+                qsParm['ip'] = null;
                 qs();
-                var returnvalue = qsParm['topic'];
-                chat.server.returnValue(returnvalue);
+                topicvalue = qsParm['topic'];
+                namevalue = qsParm['name'];
+                ipvalue = qsParm['ip'];
+                chat.server.returnValue(topicvalue);
+            };
+
+            chat.client.getfriendinfo = function () {
+                chat.server.returnFriend(namevalue, ipvalue);
             };
 
             chat.client.getotheruser = function (otheruser, connectionip) {
@@ -200,7 +210,8 @@
 
 
             chat.client.connectionMessage = function (message) {
-                var encodedName = $('<div />').text("@(User.Identity.GetUserName())").html();
+                //var encodedName = $('<div />').text("@(User.Identity.GetUserName())").html();
+                var encodedName = $('<div />').text("They").html();
                 var encodedMsg = $('<div />').html(message).html();
 
                 $('#discussion').append($('<div class="connectionmessage">'
@@ -267,7 +278,8 @@
                 });
             });
 
-            chat.client.not
+            //who wrote this line below? is this a mistake?
+            //chat.client.not
         });
 </script>
 }
@@ -340,19 +352,8 @@
             <div id="emoticontriangleinner"></div>
         </div>
 
-        <div id="friendsbutton" onclick="showfriendspanel()">
-            <img src="~/Resources/Icons/emote.png" />
-        </div>
-        <div id="friendscontainer">
-            <hr />
-            <div id="friendspanel">
-            </div>
-            <div id="friendstriangleouter"></div>
-            <div id="friendstriangleinner"></div>
-        </div>
-
         <div id="addfriendbutton" onclick="addUser()">
-            <img src="~/Resources/Icons/25.gif" />
+            AddFriend
         </div>
     </div>
 </div>

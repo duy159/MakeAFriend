@@ -117,8 +117,6 @@ namespace MakeAFriend_v2.Controllers
                 i++;
             }
 
-            System.Diagnostics.Debug.WriteLine(friendsStr[0, 1]);
-
             return Json(friendsStr, JsonRequestBehavior.AllowGet);
         }
 
