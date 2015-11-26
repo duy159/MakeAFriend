@@ -207,6 +207,7 @@
     <Content Include="Resources\back-hover.png" />
     <Content Include="Resources\back.png" />
     <Content Include="Resources\background.jpg" />
+    <Content Include="Resources\chatbubble.png" />
     <Content Include="Resources\exit.png" />
     <Content Include="Resources\exit_hover.png" />
     <Content Include="Resources\Icons\1.gif" />

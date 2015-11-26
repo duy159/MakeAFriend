@@ -35,13 +35,17 @@
 
                     if (friendsStr[0] != null) {
                         for (var i = 0; i < friendsStr.length / 3; i++) {
-                            $('#friendlist').append('<div class="friendlistitem" onclick="friendclick(&quot;' + friendsStr[i] + "&quot;, &quot;" + friendsStr[i + ((friendsStr.length / 3) * 2)] + '&quot;)">'
+                            $('#friendlist').append('<div class="friendlistitem">'
                                 + '<span class="friendname">'
                                 + friendsStr[i]
                                 + '</span>'
                                 + '<span class="friendstatus">'
                                 + friendsStr[i + friendsStr.length / 3]
                                 + '</span>'
+                                + '</div>'
+                                + '<div class="friendlistitem-hover" onclick="friendclick(&quot;' + friendsStr[i] + "&quot;, &quot;" + friendsStr[i + ((friendsStr.length / 3) * 2)] + '&quot;)">'
+                                + 'Click to chat'
+                                + '<img class="chaticon" src="../Resources/chatbubble.png" height="30";/>'
                                 + '</div>'
                             ).show();
                         }
@@ -50,7 +54,7 @@
                     }
                 },
                 error: function (ob, errStr) {
-                    alert("An error occured, please try again.");
+                    //alert("An error occured, please try again.");
                 }
             });
 
@@ -94,7 +98,7 @@
                 <div id="friendheader">
                     FRIEND LIST
                 </div>
-                <hr />
+                @*<hr />*@
                 <div id="friendlist-wrapper">
                     <div id="friendlist">
                     </div>

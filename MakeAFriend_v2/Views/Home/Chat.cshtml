@@ -112,7 +112,7 @@
             };
 
             chat.client.getotheruser = function (otheruser, connectionip) {
-                alert(otheruser);
+                alert("Adding " + otheruser + " to your friend list");
 
                 if (otheruser) {
                    // var data = JSON.stringify({ name: '@(User.Identity.GetUserName())', otherusername: otheruser });
@@ -132,7 +132,7 @@
                            // alert(value);
                         },
                         error: function (ob, errStr) {
-                            alert("Already added");
+                            alert(otheruser + " has already been added!");
                         }
                     });
                 }
