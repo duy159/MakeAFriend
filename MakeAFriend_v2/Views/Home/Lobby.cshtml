@@ -9,7 +9,12 @@
     <script src="~/signalr/hubs"></script>
     <script>
         function friendclick(friendname, friendip) {
-            window.location.href = "@Url.Action("Chat", "Home")" + "?topic=Friend" + "&name=" + friendname + "&ip=" + friendip;
+            $('.friendlistitem-hover').css({ right: '0px', opacity: 1, background: '#cecece' });
+            $('.friendlistitem-hover').empty().append($('<div>Waiting for ' + friendname + ' to reply</div>').css({ opacity: 0 }).animate({ opacity: 1 }, 500, 'swing'));
+
+            setTimeout(function () {
+                window.location.href = "@Url.Action("Chat", "Home")" + "?topic=Friend" + "&name=" + friendname + "&ip=" + friendip;
+            }, 5000);
         }
 
         $(function () {
@@ -66,8 +71,8 @@
                 chat.server.returnValue('');
             };
 
-            chat.client.roominvitation = function () {
-                alert("YOU GOT INVITED!!");
+            chat.client.roominvitation = function (name) {
+                alert(name + " is inviting you to a chatroom");
                 window.location.href = "@Url.Action("Chat", "Home")" + "?topic=FriendJoining";
             };
 

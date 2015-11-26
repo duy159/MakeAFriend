@@ -226,7 +226,7 @@ namespace MakeAFriend_v2
                             if (u.connectionId != Context.ConnectionId)
                             {
                                 Debug.WriteLine("Found friend");
-                                Clients.Client(u.connectionId).roominvitation();
+                                Clients.Client(u.connectionId).roominvitation(Context.User.Identity.Name);
                                 //Clients.All.roominvitation();
                             }
                         }
