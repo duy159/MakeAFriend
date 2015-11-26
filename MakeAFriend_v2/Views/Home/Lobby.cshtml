@@ -8,13 +8,17 @@
     <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
-        // make it accept 2 parameters, make a new function in chathub. make this href to chat (refer to categories)
-        // and append personal to the url. use parser to read and create or find existing room. add user to room.
         function friendclick(friendname, friendip) {
             window.location.href = "@Url.Action("Chat", "Home")" + "?topic=Friend" + "&name=" + friendname + "&ip=" + friendip;
         }
 
         $(function () {
+            setTimeout(function () {
+                $('#friendpanel').animate({ 'top': '10%' }, 1000, 'swing');
+                $('#matchcontainer').animate({ 'opacity': 1 }, 600);
+            }, 200);
+
+
             // Empty the list first
             var e = document.getElementById('friendlist');
             e.innerHTML = "";
@@ -30,13 +34,13 @@
                 success: function (friendsStr) {
 
                     if (friendsStr[0] != null) {
-                        for (var i = 0; i < friendsStr.length/3; i++) {
+                        for (var i = 0; i < friendsStr.length / 3; i++) {
                             $('#friendlist').append('<div class="friendlistitem" onclick="friendclick(&quot;' + friendsStr[i] + "&quot;, &quot;" + friendsStr[i + ((friendsStr.length / 3) * 2)] + '&quot;)">'
                                 + '<span class="friendname">'
                                 + friendsStr[i]
                                 + '</span>'
                                 + '<span class="friendstatus">'
-                                + friendsStr[i + friendsStr.length/3]
+                                + friendsStr[i + friendsStr.length / 3]
                                 + '</span>'
                                 + '</div>'
                             ).show();
@@ -44,16 +48,14 @@
                     } else {
                         $('#friendlist').append('<div class="friendlistitem-empty"> You have no friends. </div>').show();
                     }
-                    //$('#friendlist').append($('</div>'));
-                    //  $('#friendspanel').attr("style", "z-index: 2; display: block;");
                 },
                 error: function (ob, errStr) {
                     alert("An error occured, please try again.");
                 }
             });
-        });
 
-        $(function () {
+
+
             var chat = $.connection.chatHub;
 
             chat.client.gettopic = function () {
@@ -62,8 +64,10 @@
 
             chat.client.roominvitation = function () {
                 alert("YOU GOT INVITED!!");
-                window.location.href = "@Url.Action("FriendChat", "Home")" + "?topic=FriendJoining";
+                window.location.href = "@Url.Action("Chat", "Home")" + "?topic=FriendJoining";
             };
+
+            $.connection.hub.start().done(function () { });
         });
     </script>
     }
@@ -79,10 +83,7 @@
             using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
             {
                 @Html.AntiForgeryToken()
-                
-
                 @*<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>*@
-               
             }
         }
     </div>
@@ -91,6 +92,7 @@
         <div id="friendcontainer">
             <div id="friendpanel">
                 <div id="friendheader">
+                    FRIEND LIST
                 </div>
                 <hr />
                 <div id="friendlist-wrapper">

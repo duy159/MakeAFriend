@@ -54,78 +54,8 @@
             }
         });
 
-
-        // Friends list functions
-        //function showfriendspanel() {
-        //    var e = document.getElementById('friendscontainer');
-        //    if (e.style.display == 'block')
-        //        e.style.display = 'none';
-        //    else {
-        //        refreshfriendslist();
-        //        e.style.display = 'block';
-        //    }
-        //}
-
-        @*function refreshfriendslist() {
-            // Empty the list first
-            var e = document.getElementById('friendspanel');
-            e.innerHTML = "";
-
-            $.ajax({
-                type: "GET",
-                url: '@Url.Action("getFriends", "Home")',
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                cache: false,
-                data: {
-                    name: '@(User.Identity.GetUserName())'
-                },//data,
-                success: function (friendsStr) {
-                    for(var i = 0; i < friendsStr[0][0].length; i++)
-                    {
-                        console.log(friendsStr[i]);
-                        $('#friendlist').append('<div class="friendlistitem">' + friendsStr[0][i] + " " + friendsStr[1][i] + "<br/>").show();
-                    }
-                    $('#friendspanel').append($('</div>'));
-                  //  $('#friendspanel').attr("style", "z-index: 2; display: block;");
-                },
-                error: function (ob, errStr) {
-                    alert("An error occured, please try again.");
-                }
-            });
-        }*@
-
-        function friendclick(i) {
-           // $('#message').html($('#message').html() + "<img src='../Resources/Icons/" + i + ".gif'/>");
-           /// document.getElementById('emoticoncontainer').style.display = 'none';
-           // $('#message').html($('#message').html()).focus();
-        }
-        function friendhover(i) {
-           // document.getElementById("emoticonpreview").src = "../Resources/Icons/" + i + ".gif";
-        }
-
         function addUser() {
             var otheruser = $.connection.chatHub.server.getOtherUser();
-
-            @*console.log(otheruser);
-            if (otheruser) {
-                var data = JSON.stringify({ 'name': '@(User.Identity.GetUserName())', 'otherusername': otheruser });
-                alert(otheruser);
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("addFriends", "AccountController")',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    cache: false,
-                    data: data,
-                    success: function(value){
-                        alert(value);
-                    },
-                    error: function(ob, errStr){
-                        alert("An error occured, please try again.");
-                    }
-                });
-            }*@
         }
 
 
@@ -202,7 +132,7 @@
                            // alert(value);
                         },
                         error: function (ob, errStr) {
-                            alert("An error occured, please try again.");
+                            alert("Already added");
                         }
                     });
                 }
@@ -257,7 +187,6 @@
                     var scrolled = false;
                     if (!scrolled) {
                         var element = document.getElementById("chatcontainer");
-                        //element.scrollTop = element.scrollHeight;
                         $("#chatcontainer").animate({ scrollTop: $("#chatcontainer").get(0).scrollHeight }, 500);
                     }
 
@@ -277,9 +206,6 @@
                     $('#message').html('').focus();
                 });
             });
-
-            //who wrote this line below? is this a mistake?
-            //chat.client.not
         });
 </script>
 }

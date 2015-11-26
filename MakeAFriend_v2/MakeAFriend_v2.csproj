@@ -233,6 +233,7 @@
     <Content Include="Resources\Icons\8.gif" />
     <Content Include="Resources\Icons\9.gif" />
     <Content Include="Resources\Icons\emote.png" />
+    <Content Include="Resources\lobbybackground.jpg" />
     <Content Include="Resources\spinner.gif" />
     <Content Include="Resources\test.jpg" />
     <Content Include="Resources\Topics\animals-hover.jpg" />

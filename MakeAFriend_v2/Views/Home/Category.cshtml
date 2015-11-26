@@ -17,7 +17,6 @@
 
     function categoryclick(topic) {
         setTimeout(function () {
-            //window.alert("You have chosen... " + topic + "!");
             window.location.href = "@Url.Action("Chat", "Home")" + "?topic=" + topic;
         }, 400);
     }
@@ -30,23 +29,8 @@
 </script>
 }
 
-@*<div id="headercontainer">
-    <h1 id="headerTitle">Choose a Topic</h1>
-    @if (Request.IsAuthenticated)
-    {
-        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-        {
-            @Html.AntiForgeryToken()
-            <div id="loginpartial">
-                Hi @(User.Identity.GetUserName())!
-                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-            </div>
-        }
-    }
-</div>*@
-
 <div id="headercontainer">
-    <a class="backbutton" title="Back" href="@Url.Action("Lobby", "Home")">CANCEL</a>
+    <a class="backbutton" title="Back" href="@Url.Action("Lobby", "Home")">LOBBY</a>
     <h1 id="headerTitle">Choose a Topic</h1>
 </div>
 
