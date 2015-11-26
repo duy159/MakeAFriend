@@ -30,7 +30,10 @@
 }
 
 <div id="headercontainer">
-    <a class="backbutton" title="Back" href="@Url.Action("Lobby", "Home")">LOBBY</a>
+    <a id="backcontainer" title="Back" href="@Url.Action("Lobby", "Home")">
+        <img id="back" src="~/Resources/back.png" height="70" />
+        <img id="back-hover" src="~/Resources/back-hover.png" height="70" />
+    </a>
     <h1 id="headerTitle">Choose a Topic</h1>
 </div>
 

@@ -204,6 +204,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Resources\back-hover.png" />
+    <Content Include="Resources\back.png" />
     <Content Include="Resources\background.jpg" />
     <Content Include="Resources\exit.png" />
     <Content Include="Resources\exit_hover.png" />

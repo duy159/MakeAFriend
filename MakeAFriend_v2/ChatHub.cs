@@ -45,7 +45,7 @@ namespace MakeAFriend_v2
             {
                 foreach (User u in existingRoom.Value.users)
                 {
-                    if (Context.User.Identity.Name.Equals(u.name) && existingRoom.Key.Equals(u.roomId))
+                    if (Context.ConnectionId.Equals(u.connectionId) && existingRoom.Key.Equals(u.roomId))
                     {
                         currentRoom = existingRoom.Value;
                         break;
@@ -68,7 +68,7 @@ namespace MakeAFriend_v2
                 {
                     foreach (User u in existingRoom.Value.users)
                     {
-                        if (Context.User.Identity.Name.Equals(u.name) && existingRoom.Key.Equals(u.roomId))
+                        if (Context.ConnectionId.Equals(u.connectionId) && existingRoom.Key.Equals(u.roomId))
                         {
                             roomsType = i;
                             break;
@@ -153,7 +153,8 @@ namespace MakeAFriend_v2
         public override Task OnConnected()
         {
             Debug.WriteLine("Client's connection id: " + Context.ConnectionId);
-            userInfos.TryAdd(Context.User.Identity.Name, Context.ConnectionId);
+            //userInfos.TryAdd(Context.User.Identity.Name, Context.ConnectionId);
+            userInfos.AddOrUpdate(Context.User.Identity.Name, Context.ConnectionId, (key, oldValue) => Context.ConnectionId);
 
             Clients.Client(Context.ConnectionId).gettopic();
 
@@ -163,6 +164,16 @@ namespace MakeAFriend_v2
 
                 if (roomsType != 6 && roomsType != -1 && roomsType != -2)
                 {
+                    //foreach (KeyValuePair<string, string> existingUsers in userInfos)
+                    //{
+                    //    if (existingUsers.Key == Context.User.Identity.Name)
+                    //    {
+                    //        string garbage;
+                    //        userInfos.TryRemove(existingUsers.Key, out garbage);
+                    //        break;
+                    //    }
+                    //}
+
                     CreateUser();
 
                     Room currentRoom = null;
@@ -251,7 +262,7 @@ namespace MakeAFriend_v2
 
 
                 timer.Dispose();
-            }, null, 1000, System.Threading.Timeout.Infinite);
+            }, null, 1500, System.Threading.Timeout.Infinite);
 
             return base.OnConnected();
         }
@@ -263,8 +274,9 @@ namespace MakeAFriend_v2
             System.Threading.Timer timer = null;
             timer = new System.Threading.Timer((obj) =>
             {
-                if (roomsType != 6 && roomsType != -1 && roomsType != -2)
+                if (roomsType != -1 && roomsType != -2)
                 {
+                    bool roomFound = false;
                     Room currentRoom = null;
                     foreach (KeyValuePair<string, Room> existingRoom in rooms[roomsType])
                     {
@@ -273,37 +285,42 @@ namespace MakeAFriend_v2
                             if (Context.ConnectionId.Equals(u.connectionId) && existingRoom.Key.Equals(u.roomId))
                             {
                                 currentRoom = existingRoom.Value;
+                                roomFound = true;
                                 break;
                             }
                         }
                     }
-
-                    foreach (User u in currentRoom.users)
+                    if (roomFound)
                     {
-                        if (u.connectionId != Context.ConnectionId)
+                        foreach (User u in currentRoom.users)
                         {
-                            Clients.Client(u.connectionId).connectionMessage(" have left the room.");
-                        }
+                            if (u.connectionId != Context.ConnectionId && currentRoom.users.Count == 2)
+                            {
+                                Clients.Client(u.connectionId).connectionMessage(" have left the room.");
+                            }
 
-                        //if (u.connectionId == Context.ConnectionId)
-                        //{
-                        //    currentRoom.users.Remove(u);
-                        //}
-                    }
-                } else if (roomsType == -2)
-                {
-                    foreach (KeyValuePair<string, string> existingUsers in userInfos)
-                    {
-                        if (existingUsers.Value == Context.ConnectionId)
-                        {
-                            string garbage;
-                            userInfos.TryRemove(existingUsers.Key, out garbage);
-                            break;
+                            //if (currentRoom.users.Count < 2 && u.connectionId == Context.ConnectionId)
+                            //{
+                            //    currentRoom.users.Remove(u);
+                            //    break;
+                            //}
                         }
                     }
                 }
+                //if (roomsType == 6 || roomsType == -1)
+                //{
+                //    foreach (KeyValuePair<string, string> existingUsers in userInfos)
+                //    {
+                //        if (existingUsers.Key == Context.User.Identity.Name)
+                //        {
+                //            string garbage;
+                //            userInfos.TryRemove(existingUsers.Key, out garbage);
+                //            break;
+                //        }
+                //    }
+                //}
                 timer.Dispose();
-            }, null, 1000, System.Threading.Timeout.Infinite);
+            }, null, 1500, System.Threading.Timeout.Infinite);
 
             return base.OnDisconnected(stopCalled);
         }
@@ -335,22 +352,24 @@ namespace MakeAFriend_v2
                         break;
                     }
                 }
-                CreateRoom(user, friend);
+                Debug.WriteLine("Creating new room");
+                Room r = new Room();
+                string roomId = Guid.NewGuid().ToString();
+                user.roomId = roomId;
+                friend.roomId = roomId;
+                r.users.Add(friend);
+                r.users.Add(user);
+                rooms[roomsType].TryAdd(roomId, r);
             }
         }
 
-        private static void CreateRoom(User user, User friend = null)
+        private static void CreateRoom(User user)
         {
             Debug.WriteLine("Creating new room");
             Room r = new Room();
             string roomId = Guid.NewGuid().ToString();
             user.roomId = roomId;
-            friend.roomId = roomId;
-            if (friend != null)
-            {
-                r.users.Add(friend);
-                r.users.Add(user);
-            }
+            r.users.Add(user);
             rooms[roomsType].TryAdd(roomId, r);
         }
 
