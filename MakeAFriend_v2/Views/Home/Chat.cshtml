@@ -129,7 +129,7 @@
                             otheruserip: connectionip
                                 },//data,
                         success: function (value) {
-                           // alert(value);
+                            // alert(value);
                         },
                         error: function (ob, errStr) {
                             alert(otheruser + " has already been added!");
@@ -222,6 +222,9 @@
     <div class="loader">
         <p>Finding a friend...</p>
         <img class="spinner" src="~/Resources/spinner.gif" />
+        <p class="cancelsearch-wrapper">
+            <a class="cancelsearch" href="@Url.Action("Category", "Home")">Cancel</a>
+        </p>
     </div>
     <div class="loader-section section-left"></div>
     <div class="loader-section section-right"></div>

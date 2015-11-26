@@ -304,6 +304,13 @@ namespace MakeAFriend_v2
                             //    currentRoom.users.Remove(u);
                             //    break;
                             //}
+
+                            if (!currentRoom.full)
+                            {
+                                Debug.WriteLine("Canceling match");
+                                currentRoom.users.Remove(u);
+                                break;
+                            }
                         }
                     }
                 }
@@ -368,6 +375,7 @@ namespace MakeAFriend_v2
             Debug.WriteLine("Creating new room");
             Room r = new Room();
             string roomId = Guid.NewGuid().ToString();
+            r.full = false;
             user.roomId = roomId;
             r.users.Add(user);
             rooms[roomsType].TryAdd(roomId, r);
@@ -390,6 +398,7 @@ namespace MakeAFriend_v2
                     roomFound = true;
                     user.roomId = existingRoom.Key;
                     room.users.Add(user);
+                    room.full = true;
                     break;
                 }
             }
@@ -418,6 +427,7 @@ namespace MakeAFriend_v2
 
     public class Room
     {
+        public bool full { get; set; }
         public ArrayList users = new ArrayList();
     }
 }
