@@ -9,20 +9,51 @@
     <script src="~/signalr/hubs"></script>
     <script>
         function friendclick(friendname, friendip) {
-            $('.friendlistitem-hover').css({ right: '0px', opacity: 1, background: '#cecece' });
-            $('.friendlistitem-hover').empty().append($('<div>Waiting for ' + friendname + ' to reply</div>').css({ opacity: 0 }).animate({ opacity: 1 }, 500, 'swing'));
+            //$('.friendlistitem-hover').css({ right: '0px', opacity: 1, background: '#cecece' });
+            //$('.friendlistitem-hover').empty().append($('<div>Waiting for ' + friendname + ' to reply</div>').css({ opacity: 0 }).animate({ opacity: 1 }, 500, 'swing'));
 
-            setTimeout(function () {
+            @*setTimeout(function () {
                 window.location.href = "@Url.Action("Chat", "Home")" + "?topic=Friend" + "&name=" + friendname + "&ip=" + friendip;
-            }, 5000);
+            }, 5000);*@
+            window.location.href = "@Url.Action("Lobby", "Home")" + "?topic=Friend" + "&name=" + friendname + "&ip=" + friendip + "&status=invited";
+
         }
 
+        var qsParm = new Array();
+        function qs() {
+            var query = window.location.search.substring(1);
+            var parms = query.split('&');
+            for (var i = 0; i < parms.length; i++) {
+                var pos = parms[i].indexOf('=');
+                if (pos > 0) {
+                    var key = parms[i].substring(0, pos);
+                    var val = parms[i].substring(pos + 1);
+                    qsParm[key] = val;
+                }
+            }
+        }
+
+        qsParm['topic'] = null;
+        qsParm['name'] = null;
+        qsParm['ip'] = null;
+        qsParm['status'] = "normal";
         $(function () {
-            setTimeout(function () {
+            qs();
+
+            //setTimeout(function () {
+            if (qsParm['status'] == "invited") {
+                $('#friendpanel').css({ 'top': '10%' });
+                $('#matchcontainer').css({ 'opacity': 1 });
+
+                setTimeout(function () {
+                    $('.friendlistitem-hover').css({ right: '0px', opacity: 1, background: '#cecece' });
+                    $('.friendlistitem-hover').empty().append($('<div>Waiting for reply</div>').css({ opacity: 0 }).animate({ opacity: 1 }, 1000, 'swing'));
+                },300);
+            } else {
                 $('#friendpanel').animate({ 'top': '10%' }, 1000, 'swing');
                 $('#matchcontainer').animate({ 'opacity': 1 }, 600);
-            }, 200);
-
+                }
+            //}, 100);
 
             // Empty the list first
             var e = document.getElementById('friendlist');
@@ -67,13 +98,36 @@
 
             var chat = $.connection.chatHub;
 
+            var topicvalue;
+            var namevalue;
+            var ipvalue;
             chat.client.gettopic = function () {
-                chat.server.returnValue('');
+                if (qsParm['status'] == "invited") {
+                    topicvalue = qsParm['topic'];
+                    namevalue = qsParm['name'];
+                    ipvalue = qsParm['ip'];
+                    chat.server.returnValue(topicvalue);
+                } else {
+                    chat.server.returnValue('');
+                }
             };
 
-            chat.client.roominvitation = function (name) {
-                alert(name + " is inviting you to a chatroom");
-                window.location.href = "@Url.Action("Chat", "Home")" + "?topic=FriendJoining";
+            chat.client.getfriendinfo = function () {
+                chat.server.returnFriend(namevalue, ipvalue);
+            };
+
+            chat.client.roominvitation = function (name, ip) {
+                if (qsParm['status'] == 'invited') {
+                    window.location.href = "@Url.Action("Chat", "Home")" + "?topic=FriendJoining";
+                } else {
+                    if (confirm(name + ' is inviting you to chat with them!')) {
+                        // Save it!
+                        window.location.href = "@Url.Action("Chat", "Home")" + "?topic=Friend" + "&name=" + name + "&ip=" + ip;
+                    } else {
+                        // Do nothing!
+                    }
+                }
+                //window.location.href = "@Url.Action("Chat", "Home")" + "?topic=FriendJoining";
             };
 
             $.connection.hub.start().done(function () { });
