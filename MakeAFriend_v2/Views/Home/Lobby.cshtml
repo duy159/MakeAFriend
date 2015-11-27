@@ -44,15 +44,19 @@
             if (qsParm['status'] == "invited") {
                 $('#friendpanel').css({ 'top': '10%' });
                 $('#matchcontainer').css({ 'opacity': 1 });
+                //setTimeout(function () {
+                    //$('.friendlistitem-hover').css({ right: '0px', opacity: 1, background: '#cecece' });
+                    //$('.friendlistitem-hover').empty().append($('<div>Waiting for reply</div>').css({ opacity: 0 }).animate({ opacity: 1 }, 1000, 'swing'));
+                //},300);
+            } else {
+                $('#friendpanel').css({ 'top': '100%' });
+                $('#matchcontainer').css({ 'opacity': 0 });
 
                 setTimeout(function () {
-                    $('.friendlistitem-hover').css({ right: '0px', opacity: 1, background: '#cecece' });
-                    $('.friendlistitem-hover').empty().append($('<div>Waiting for reply</div>').css({ opacity: 0 }).animate({ opacity: 1 }, 1000, 'swing'));
-                },300);
-            } else {
-                $('#friendpanel').animate({ 'top': '10%' }, 1000, 'swing');
-                $('#matchcontainer').animate({ 'opacity': 1 }, 600);
-                }
+                    $('#friendpanel').animate({ 'top': '10%' }, 1000, 'swing');
+                    $('#matchcontainer').animate({ 'opacity': 1 }, 600);
+                }, 500);
+            }
             //}, 100);
 
             // Empty the list first
@@ -85,6 +89,11 @@
                                 + '</div>'
                             ).show();
                         }
+                        if (qsParm['status'] == "invited") {
+                            $('.friendlistitem-hover').css({ right: '0px', opacity: 1, background: '#cecece' });
+                            $('.friendlistitem-hover').empty().append($('<div>Waiting for reply</div>').css({ opacity: 0 }).animate({ opacity: 1 }, 1000, 'swing'));
+                        }
+
                     } else {
                         $('#friendlist').append('<div class="friendlistitem-empty"> You have no friends. </div>').show();
                     }
