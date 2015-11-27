@@ -59,17 +59,6 @@
         }
 
 
-
-        $(document).mouseup(function (e) {
-            var container = $("#friendscontainer");
-
-            if (!container.is(e.target) // if the target of the click isn't the container...
-                && container.has(e.target).length === 0) // ... nor a descendant of the container
-            {
-                document.getElementById('friendscontainer').style.display = 'none';
-            }
-        });
-
         // Pressing enter will send the message in the textbox
         $('#message').keydown(function (e) {
             if (e.which == 13) {

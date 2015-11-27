@@ -130,7 +130,6 @@
                     window.location.href = "@Url.Action("Chat", "Home")" + "?topic=FriendJoining";
                 } else {
                     if (confirm(name + ' is inviting you to chat with them!')) {
-                        // Save it!
                         window.location.href = "@Url.Action("Chat", "Home")" + "?topic=Friend" + "&name=" + name + "&ip=" + ip;
                     } else {
                         // Do nothing!
