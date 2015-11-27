@@ -194,7 +194,7 @@ namespace MakeAFriend_v2
                         foreach (User u in currentRoom.users)
                         {
                             Clients.Client(u.connectionId).foundMatch();
-                            Clients.Client(u.connectionId).connectionMessage(" have joined the room.");
+                            Clients.Client(u.connectionId).connectionMessage("You have joined the room.");
                         }
                     }
                 } else if (roomsType == 6 && roomsType != -2 && roomsType != -1)
@@ -255,6 +255,7 @@ namespace MakeAFriend_v2
                         {
                             u.connectionId = Context.ConnectionId;
                             Clients.Client(u.connectionId).foundMatch();
+                            Clients.Client(u.connectionId).connectionMessage("You have joined the room.");
                         }
                     }
                 }
@@ -295,7 +296,7 @@ namespace MakeAFriend_v2
                         {
                             if (u.connectionId != Context.ConnectionId && currentRoom.users.Count == 2)
                             {
-                                Clients.Client(u.connectionId).connectionMessage(" have left the room.");
+                                Clients.Client(u.connectionId).connectionMessage("They have left the room.");
                             }
 
                             //if (currentRoom.users.Count < 2 && u.connectionId == Context.ConnectionId)

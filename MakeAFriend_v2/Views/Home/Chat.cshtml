@@ -130,11 +130,12 @@
 
             chat.client.connectionMessage = function (message) {
                 //var encodedName = $('<div />').text("@(User.Identity.GetUserName())").html();
-                var encodedName = $('<div />').text("They").html();
+                //var encodedName = $('<div />').text("They").html();
                 var encodedMsg = $('<div />').html(message).html();
 
                 $('#discussion').append($('<div class="connectionmessage">'
-                    + encodedName + encodedMsg
+                    //+ encodedName + encodedMsg
+                    + encodedMsg
                     + '</div>'));
             };
 

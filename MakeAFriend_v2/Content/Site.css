@@ -152,7 +152,7 @@ body {
 }
 .cancelsearch:hover {
     color: #2e3f92;
-    text-decoration: none;
+    /*text-decoration: none;*/
 }
 
 /******************************** HOMEPAGE ********************************/
@@ -274,15 +274,15 @@ body {
 #matchbutton {
     position: absolute;
     top: 175px;
-    font-size: 20pt;
+    font-size: 25pt;
     /*background: #ff5600;*/
-    background: #f3610c; 
+    background: #FF6111; 
     color: white;
-    border-radius: 100px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 10px;
-    padding-top: 5px;
+    border-radius: 5px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-bottom: 15px;
+    padding-top: 12px;
     transition: 0.3s;
     cursor: pointer;
 }
@@ -339,7 +339,7 @@ body {
     color: white;
     padding-top: 15px;
     font-weight: 500 !important;
-    background-color: #f7ae00;
+    background-color: #E8AA10;
 }
 #friendlist-wrapper {
     position: absolute;
@@ -356,7 +356,7 @@ body {
     margin-left: 20px;
 }
 #logoutform:hover {
-    text-decoration: none;
+    /*text-decoration: none;*/
 }
 .friendlistitem {
     position: relative;
@@ -383,6 +383,9 @@ body {
 .friendlistitem-hover:hover {
     opacity: 1;
     right: 0;
+}
+.friendlistitem-hover:active {
+    background-color: #424242;
 }
 .friendlistitem-empty {
     font-size: 20pt;
