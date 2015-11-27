@@ -206,8 +206,6 @@ namespace MakeAFriend_v2
                     {
                         CreateUser();
 
-                        Clients.Client(Context.ConnectionId).foundMatch();
-
                         Room currentRoom = null;
                         foreach (KeyValuePair<string, Room> existingRoom in rooms[roomsType])
                         {
@@ -223,6 +221,7 @@ namespace MakeAFriend_v2
 
                         foreach (User u in currentRoom.users)
                         {
+                            Clients.Client(Context.ConnectionId).foundMatch();
                             if (u.connectionId != Context.ConnectionId)
                             {
                                 Debug.WriteLine("Found friend");
